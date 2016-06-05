@@ -124,7 +124,7 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
 									hello(message);
 								}
 						}
-                        if (isDefined(responseData) && isDefined(responseData.slack)) {
+                        /* if (isDefined(responseData) && isDefined(responseData.slack)) {
                             try{
                                 bot.reply(message, responseData.slack);
                             } catch (err) {
@@ -136,7 +136,7 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
                                     console.error(err);
                                 }
                             });
-                        }
+                        } */
 
                     }
                 });
