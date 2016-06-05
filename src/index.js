@@ -52,7 +52,7 @@ function isDefined(obj) {
     return obj != null;
 }
 
-function hello(data){
+function hello(message){
 var responseText="hello from api";
    bot.reply(message, responseText, (err, resp) => {
 	if (err) {
@@ -115,7 +115,7 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
                         let responseData = response.result.fulfillment.data;
                         let action = response.result.action;
 
-						if( response.result.source == "agent" ){
+						if( response.result.source == 'agent' ){
 							switch( action ){
 								case "agent.hello.babun":
 									hello(message);
