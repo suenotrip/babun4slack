@@ -32,7 +32,7 @@ const apiAiService = apiai(apiAiAccessToken, apiaiOptions);
 const sessionIds = new Map();
 
 const controller = Botkit.slackbot({
-    debug: true
+    debug: false
     //include "log: false" to disable logging
 });
 
@@ -51,16 +51,6 @@ function isDefined(obj) {
 
     return obj != null;
 }
-
-/* function hello(message){
-var responseText="hello from api";
-   bot.reply(message, responseText, (err, resp) => {
-	if (err) {
-			console.error(err);
-		}
-	});
-}
- */
 
 controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambient'], (bot, message) => {
     try {
@@ -114,21 +104,7 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
                         let responseText = response.result.fulfillment.speech;
                         let responseData = response.result.fulfillment.data;
                         let action = response.result.action;
-						console.log("===action",action);
-						/* if( response.result.source == 'agent' ){
-							switch( action ){
-								case "agent.hello.babun":
-										var text='hello from api';
-										bot.reply(message, text, (err, resp) => {
-											if (err) {
-												console.error(err);
-											}
-										});
-									break;
-								default:
-									//hello(message);
-								}
-						} */
+
                         if (isDefined(responseData) && isDefined(responseData.slack)) {
                             try{
                                 bot.reply(message, responseData.slack);
