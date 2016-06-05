@@ -32,7 +32,7 @@ const apiAiService = apiai(apiAiAccessToken, apiaiOptions);
 const sessionIds = new Map();
 
 const controller = Botkit.slackbot({
-    debug: false
+    debug: true
     //include "log: false" to disable logging
 });
 
