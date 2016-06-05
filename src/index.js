@@ -114,14 +114,19 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
                         let responseText = response.result.fulfillment.speech;
                         let responseData = response.result.fulfillment.data;
                         let action = response.result.action;
-
+						console.log("===action",action);
 						if( response.result.source == 'agent' ){
 							switch( action ){
 								case "agent.hello.babun":
-									hello(message);
+										var text='hello from api';
+										bot.reply(message, text, (err, resp) => {
+											if (err) {
+												console.error(err);
+											}
+										});
 									break;
 								default:
-									hello(message);
+									//hello(message);
 								}
 						}
                         /* if (isDefined(responseData) && isDefined(responseData.slack)) {
