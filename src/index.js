@@ -115,7 +115,7 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
                         let responseData = response.result.fulfillment.data;
                         let action = response.result.action;
 						console.log("===action",action);
-						if( response.result.source == 'agent' ){
+						/* if( response.result.source == 'agent' ){
 							switch( action ){
 								case "agent.hello.babun":
 										var text='hello from api';
@@ -128,8 +128,8 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
 								default:
 									//hello(message);
 								}
-						}
-                        /* if (isDefined(responseData) && isDefined(responseData.slack)) {
+						} */
+                        if (isDefined(responseData) && isDefined(responseData.slack)) {
                             try{
                                 bot.reply(message, responseData.slack);
                             } catch (err) {
@@ -141,7 +141,7 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
                                     console.error(err);
                                 }
                             });
-                        } */
+                        }
 
                     }
                 });
