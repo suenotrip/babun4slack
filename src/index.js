@@ -113,8 +113,16 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
                         let responseText = response.result.fulfillment.speech;
                         let responseData = response.result.fulfillment.data;
                         let action = response.result.action;
+						if( response.result.source == "agent" ){
+						switch( action ){
+							case "agent.hello.babun":
+								hello(message);
+								break;
+							default:
+								hello(message);
+								}
+							}
 						
-						hello(message);
                         /* if (isDefined(responseData) && isDefined(responseData.slack)) {
                             try{
                                 bot.reply(message, responseData.slack);
