@@ -121,7 +121,7 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
 									hello(message);
 									break;
 								default:
-									dontKnow(message);
+									hello(message);
 								}
 						}
                         if (isDefined(responseData) && isDefined(responseData.slack)) {
