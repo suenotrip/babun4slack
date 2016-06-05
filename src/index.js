@@ -52,7 +52,7 @@ function isDefined(obj) {
     return obj != null;
 }
 
-function hello(message){
+/* function hello(message){
 var responseText="hello from api";
    bot.reply(message, responseText, (err, resp) => {
 	if (err) {
@@ -60,7 +60,7 @@ var responseText="hello from api";
 		}
 	});
 }
-
+ */
 
 controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambient'], (bot, message) => {
     try {
