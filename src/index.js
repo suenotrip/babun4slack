@@ -52,6 +52,15 @@ function isDefined(obj) {
     return obj != null;
 }
 
+function hello(message){
+    var text = "hello from api.ai";
+    bot.reply(message, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+	});
+}
+
 controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambient'], (bot, message) => {
     try {
         if (message.type == 'message') {
@@ -104,8 +113,9 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
                         let responseText = response.result.fulfillment.speech;
                         let responseData = response.result.fulfillment.data;
                         let action = response.result.action;
-
-                        if (isDefined(responseData) && isDefined(responseData.slack)) {
+						
+						hello(message);
+                        /* if (isDefined(responseData) && isDefined(responseData.slack)) {
                             try{
                                 bot.reply(message, responseData.slack);
                             } catch (err) {
@@ -117,7 +127,7 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
                                     console.error(err);
                                 }
                             });
-                        }
+                        } */
 
                     }
                 });
