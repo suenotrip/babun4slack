@@ -336,10 +336,10 @@ function recommendMarketingTools(message,result){
     var subcat = result.parameters.marketing_tool;
 	var attachments = [];
     return db.getItemsForSubcategory(subcat).then(function(rows){
-        var elements = [];
+
         for(var i = 0; i < rows.length; i++){
             var row = rows[i];
-			var image_url = rows[i].valueOf();
+			var image_url = row.image;
             //var button = fb.createButton("Tell Me More","excerpt "+row.id);
             var excerpt = row.excerpt || "Babun no have description :( Babun later learn, k?";
             var attachment = {
