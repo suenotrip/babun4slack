@@ -310,7 +310,8 @@ function recommendProductivityTools(message,result){
             ///var button = fb.createButton("Tell Me More","excerpt "+row.id);
             var excerpt = row.excerpt || "Babun no have description :( Babun later learn, k?";
 			var attachment = {
-			title: 'This is an attachment',
+			title: row.title,
+			text: excerpt,
 			color: '#FFCC99',
 			fields: [],
 			image_url: image_url
