@@ -110,11 +110,55 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
                         let responseText = response.result.fulfillment.speech;
                         let responseData = response.result.fulfillment.data;
                         let action = response.result.action;
+						var result=response.result;
 						
 						if( response.result.source == "agent" ){
 							switch( action ){
 								case "agent.hello.babun":
 									hello(message);
+									break;
+								case "agent.about":
+									about(message);
+									break;
+								case "agent.help":
+									help(message);
+									break;
+								case "agent.bananas":
+									bananas(message);
+									break;
+								case "agent.age":
+									age(message);
+									break;
+								case "agent.joke":
+									joke(message);
+									break;
+								case "agent.submit.tool":
+									submitTool(message);
+									break;
+								case "agent.development.tool":
+									developmentTool(message);
+									break;
+								case "agent.list.productivity.tools":
+									listProductivityTools(message,result);
+									break;
+								case "agent.list.marketing.tools":
+									listMarketingTools(message,result);
+									break;
+								case "agent.recommend.productivity.tools":
+									recommendProductivityTools(message);
+									break;
+								case "agent.recommend.marketing.tools":
+									console.log("marketing tools");
+									recommendMarketingTools(message);
+									break;
+								case "agent.find.me.a.tool":
+									findMeATool(message);
+									break;
+								case "agent.name.get":
+									name(message);
+									break;
+								case "agent.gender.get":
+									gender(message);
 									break;
 								default:
 									dontKnow(message);
@@ -188,6 +232,90 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
     }
 });
 
+//------------------------------------------------------------------------------
+function listProductivityTools(data,result){
+    console.log("===listing productivity subcategories");
+    const MAX_PAGE_NO = 3; // page numbers begin at 0
+    //var senderId = data.sessionId;
+    var regex = /list_productivity_tools/i;
+    var contexts = findContextsThatMatches(result.contexts,regex);
+    var context = contexts.pop();
+	console.log("===context lifespan", context.lifespan);
+    var page = MAX_PAGE_NO - context.lifespan;
+
+	db.getMessagesOfType("productivity_tools").then(function(fire_msgs){
+		console.log("===page number",page);
+		var fire_msg = findItemWithPageNumber(fire_msgs,page);
+		console.log("===chosen message", fire_msg);
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+	
+}
+
+//------------------------------------------------------------------------------
+function listMarketingTools(data,result){
+    console.log("===listing productivity subcategories");
+    const MAX_PAGE_NO = 5; // page numbers begin at 0
+    var senderId = data.sessionId;
+    var regex = /list_marketing_tool/i;
+    var contexts = findContextsThatMatches(result.contexts,regex);
+    var context = contexts.pop();
+    var page = MAX_PAGE_NO - context.lifespan;
+
+	db.getMessagesOfType("marketing_tools").then(function(fire_msgs){
+		console.log("===page number",page);
+		var fire_msg = findItemWithPageNumber(fire_msgs,page);
+		console.log("===chosen message", fire_msg);
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+
+//------------------------------------------------------------------------------
+function findMeATool(data){
+	db.getMessagesOfType("find_me_tools").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+//------------------------------------------------------------------------------
+function name(data){
+     db.getMessagesOfType("name").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
 function hello(data){
 	db.getMessagesOfType("hello").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
@@ -220,6 +348,21 @@ function hello(data){
         console.log("[webhook_post.js]",error);
     });
     
+}
+//------------------------------------------------------------------------------
+function about(data){
+    db.getMessagesOfType("about").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
 }
 
 //------------------------------------------------------------------------------
@@ -403,6 +546,47 @@ function gender(data){
         console.log("[webhook_post.js]",error);
     });
 }
+
+//------------------------------------------------------------------------------
+function findContextsThatMatches(contexts,regex){
+    var matchingContexts = [];
+    contexts.forEach(function(context){
+       var name = context.name;
+       if( regex.test(name) ){
+           matchingContexts.push(context);
+           console.log(name,"matches regex");
+       }
+    });
+    return matchingContexts;
+}
+
+function findContextsWithLifespan(contexts){
+    var matchingContexts = [];
+    contexts.forEach(function(context){
+       var lifespan = context.lifespan;
+       if(lifespan==1){
+           matchingContexts.push(context);
+       }
+    });
+    return matchingContexts;
+}
+
+//------------------------------------------------------------------------------
+function findItemWithPageNumber(array,page){
+    var item;
+    for(var i = 0; i < array.length; i++){
+        if( array[i].page == page){
+            item = array[i];
+            break;
+        }
+    }
+    return item;
+}
+//------------------------------------------------------------------------------
+function randomIndex(array){
+    return Math.floor(Math.random()*array.length);
+}
+//------------------------------------------------------------------------------
 
 //Create a server to prevent Heroku kills the bot
 const server = http.createServer((req, res) => res.end());
