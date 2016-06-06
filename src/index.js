@@ -54,13 +54,13 @@ function isDefined(obj) {
     return obj != null;
 }
 
-function hello(data){
+function hello(message){
     //var text = "hello from api.ai";
 	db.getMessagesOfType("hello").then(function(messages){
-        var message = oneOf(messages);
+        //var message = oneOf(messages);
         //var text = message.text;
 		var text = "hello from api.ai";
-        bot.reply(data, text, (err, resp) => {
+        bot.reply(message, text, (err, resp) => {
 		if (err) {
 			console.error(err);
 		}
