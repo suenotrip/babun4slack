@@ -55,7 +55,7 @@ function isDefined(obj) {
 }
 
 function hello(data){
-    var text = "hello from api.ai";
+    //var text = "hello from api.ai";
 	db.getMessagesOfType("hello").then(function(messages){
         var message = oneOf(messages);
         var text = message.text;
