@@ -8,7 +8,6 @@
 var Adapter = require("./Adapter");
 var db = new Adapter();
 var _ = require("underscore");
-var http = require('http');
 var request = require('request');
 
 const Botkit = require('botkit');
