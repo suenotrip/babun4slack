@@ -302,9 +302,9 @@ function recommendProductivityTools(message,result){
             promises.push( db.getIconFor(rows[i].id) );
         }
         return Q.all( promises );
-    }).then(function(result){
-        for(var i = 0; i < result.length; i++){
-            var image_url = result[i].valueOf();
+    }).then(function(result1){
+        for(var i = 0; i < result1.length; i++){
+            var image_url = result1[i].valueOf();
             var row = rows[i];
             console.log("===image for %s is %s",rows[i].id,image_url);
             ///var button = fb.createButton("Tell Me More","excerpt "+row.id);
@@ -320,7 +320,7 @@ function recommendProductivityTools(message,result){
             
         }
 		
-		var text="List of 10 tools";
+		var text=var text="Here are 10 "+ subcat+ " tools";
 		bot.reply(message, {text: text,attachments: attachments,}, (err, resp) => {
 		if (err) {
 			console.error(err);
@@ -331,19 +331,32 @@ function recommendProductivityTools(message,result){
     });
 }
 //------------------------------------------------------------------------------
-function recommendMarketingTools(data){
-    var senderId = data.sessionId;
-    var subcat = data.result.parameters.marketing_tool;
+function recommendMarketingTools(message,result){
+    
+    var subcat = result.parameters.marketing_tool;
+	var attachments = [];
     return db.getItemsForSubcategory(subcat).then(function(rows){
         var elements = [];
         for(var i = 0; i < rows.length; i++){
             var row = rows[i];
-            var button = fb.createButton("Tell Me More","excerpt "+row.id);
+			var image_url = row.image;
+            //var button = fb.createButton("Tell Me More","excerpt "+row.id);
             var excerpt = row.excerpt || "Babun no have description :( Babun later learn, k?";
-            var element = fb.createElement(row.title,excerpt,row.image,[button]);
-            elements.push(element);
+            var attachment = {
+			title: row.title,
+			text: excerpt,
+			color: '#FFCC99',
+			fields: [],
+			image_url: image_url
+			};
+			attachments.push(attachment);
         }
-        return fb.reply(fb.carouselMessage(elements),senderId);
+        var text="Here are 10 "+ subcat+ " tools";
+		bot.reply(message, {text: text,attachments: attachments,}, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
     },function(error){
         console.log("[webhook_post.js]",error);
     });
