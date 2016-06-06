@@ -321,7 +321,8 @@ function recommendProductivityTools(message,result){
             
         }
 		attachments.push(attachment);
-		bot.reply(message, {text: excerpt,attachments: attachments,}, (err, resp) => {
+		var text="List of 10 tools";
+		bot.reply(message, {text: text,attachments: attachments,}, (err, resp) => {
 		if (err) {
 			console.error(err);
 		}
