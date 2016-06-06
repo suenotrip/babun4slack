@@ -56,10 +56,10 @@ function isDefined(obj) {
 
 function hello(data){
     var text = "hello from api.ai";
-	return db.getMessagesOfType("about").then(function(messages){
+	db.getMessagesOfType("hello").then(function(messages){
         var message = oneOf(messages);
         var text = message.text;
-        return bot.reply(data, text, (err, resp) => {
+        bot.reply(data, text, (err, resp) => {
 		if (err) {
 			console.error(err);
 		}
