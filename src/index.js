@@ -5,6 +5,8 @@
 //
 
 'use strict';
+var Adapter = require("./Adapter");
+var db = new Adapter();
 
 const Botkit = require('botkit');
 
@@ -52,13 +54,20 @@ function isDefined(obj) {
     return obj != null;
 }
 
-function hello(message){
+function hello(data){
     var text = "hello from api.ai";
-    bot.reply(message, text, (err, resp) => {
+	return db.getMessagesOfType("about").then(function(messages){
+        var message = oneOf(messages);
+        var text = message.text;
+        return bot.reply(data, text, (err, resp) => {
 		if (err) {
 			console.error(err);
 		}
-	});
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+    
 }
 
 controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambient'], (bot, message) => {
