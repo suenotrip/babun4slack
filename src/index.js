@@ -145,11 +145,11 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
 									listMarketingTools(message,result);
 									break;
 								case "agent.recommend.productivity.tools":
-									recommendProductivityTools(message);
+									recommendProductivityTools(message,result);
 									break;
 								case "agent.recommend.marketing.tools":
 									console.log("marketing tools");
-									recommendMarketingTools(message);
+									recommendMarketingTools(message,result);
 									break;
 								case "agent.find.me.a.tool":
 									findMeATool(message);
@@ -285,7 +285,70 @@ function listMarketingTools(data,result){
         console.log("[webhook_post.js]",error);
     });
 }
-
+//------------------------------------------------------------------------------
+function recommendProductivityTools(message,result){
+    
+    var subcat = result.parameters.productivity_tool;
+    var attachments = [];
+	var attachment = {
+			title: 'This is an attachment',
+			color: '#FFCC99',
+			fields: [],
+			};
+    var rows;
+    return db.getItemsForSubcategory(subcat).then(function(rowss){
+        rows = rowss; // save a copy
+		console.log("===rows",rows);
+        var promises = [];
+        // Get all icons
+        for(var i = 0; i < rows.length; i++){
+            promises.push( db.getIconFor(rows[i].id) );
+        }
+        return Q.all( promises );
+    }).then(function(result){
+        for(var i = 0; i < result.length; i++){
+            var image_url = result[i].valueOf();
+            var row = rows[i];
+            console.log("===image for %s is %s",rows[i].id,image_url);
+            ///var button = fb.createButton("Tell Me More","excerpt "+row.id);
+            var excerpt = row.excerpt || "Babun no have description :( Babun later learn, k?";
+			
+			attachment.fields.push({
+				label: 'Field',
+				value: 'A longish value',
+				short: false,
+			  });
+            
+           attachments.push(attachment);
+        
+        }
+		bot.reply(data, {text: excerpt,attachments: attachments,}, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+//------------------------------------------------------------------------------
+function recommendMarketingTools(data){
+    var senderId = data.sessionId;
+    var subcat = data.result.parameters.marketing_tool;
+    return db.getItemsForSubcategory(subcat).then(function(rows){
+        var elements = [];
+        for(var i = 0; i < rows.length; i++){
+            var row = rows[i];
+            var button = fb.createButton("Tell Me More","excerpt "+row.id);
+            var excerpt = row.excerpt || "Babun no have description :( Babun later learn, k?";
+            var element = fb.createElement(row.title,excerpt,row.image,[button]);
+            elements.push(element);
+        }
+        return fb.reply(fb.carouselMessage(elements),senderId);
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
 //------------------------------------------------------------------------------
 function findMeATool(data){
 	db.getMessagesOfType("find_me_tools").then(function(fire_msgs){
