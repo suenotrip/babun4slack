@@ -351,7 +351,7 @@ function recommendMarketingTools(message,result){
 			};
 			attachments.push(attachment);
         }
-        var text="Here are 10 "+ subcat+ " tools";
+        var text="Here are 10 "+ result.parameters.marketing_tool+ " tools";
 		bot.reply(message, {text: text,attachments: attachments,}, (err, resp) => {
 		if (err) {
 			console.error(err);
