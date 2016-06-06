@@ -58,7 +58,8 @@ function hello(data){
     //var text = "hello from api.ai";
 	db.getMessagesOfType("hello").then(function(messages){
         var message = oneOf(messages);
-        var text = message.text;
+        //var text = message.text;
+		var text = "hello from api.ai";
         bot.reply(data, text, (err, resp) => {
 		if (err) {
 			console.error(err);
