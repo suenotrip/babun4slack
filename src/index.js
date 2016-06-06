@@ -79,7 +79,7 @@ function hello(data){
 			short: true,
 		  });
 		attachments.push(attachment);
-        bot.reply(data, {text: 'See below...',attachments: attachments,}, (err, resp) => {
+        bot.reply(data, {text: text,attachments: attachments,}, (err, resp) => {
 		if (err) {
 			console.error(err);
 		}
