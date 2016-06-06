@@ -60,7 +60,8 @@ function hello(data){
     //var text = "hello from api.ai";
 	db.getMessagesOfType("hello").then(function(fire_msgs){
 		console.log("===fire msgs: ",fire_msgs);
-        var fire_msg = oneOf(fire_msgs);
+        //var fire_msg = oneOf(fire_msgs);
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
 		//var text=fire_msgs[0].text;
         var text = fire_msg.text;
 		//var text = "hello from api.ai";
