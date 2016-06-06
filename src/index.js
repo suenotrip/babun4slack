@@ -333,7 +333,7 @@ function recommendProductivityTools(message,result){
 //------------------------------------------------------------------------------
 function recommendMarketingTools(message,result){
     
-     var subcat = result.parameters.productivity_tool;
+     var subcat = result.parameters.marketing_tool;
     var attachments = [];
 	
     var rows;
@@ -364,7 +364,7 @@ function recommendMarketingTools(message,result){
             
         }
 		
-		var text="Here are 10 "+ result.parameters.productivity_tool+ " tools";
+		var text="Here are 10 "+ result.parameters.marketing_tool+ " tools";
 		bot.reply(message, {text: text,attachments: attachments,}, (err, resp) => {
 		if (err) {
 			console.error(err);
