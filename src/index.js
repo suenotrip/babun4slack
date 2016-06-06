@@ -320,7 +320,7 @@ function recommendProductivityTools(message,result){
             
         }
 		
-		var text=var text="Here are 10 "+ subcat+ " tools";
+		var text="Here are 10 "+ result.parameters.productivity_tool+ " tools";
 		bot.reply(message, {text: text,attachments: attachments,}, (err, resp) => {
 		if (err) {
 			console.error(err);
