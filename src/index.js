@@ -57,15 +57,29 @@ function isDefined(obj) {
 }
 
 function hello(data){
-    //var text = "hello from api.ai";
 	db.getMessagesOfType("hello").then(function(fire_msgs){
-		console.log("===fire msgs: ",fire_msgs);
-        //var fire_msg = oneOf(fire_msgs);
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
-		//var text=fire_msgs[0].text;
         var text = fire_msg.text;
-		//var text = "hello from api.ai";
-        bot.reply(data, text, (err, resp) => {
+		var attachments = [];
+		  var attachment = {
+			title: 'This is an attachment',
+			color: '#FFCC99',
+			fields: [],
+		  };
+
+		  attachment.fields.push({
+			label: 'Field',
+			value: 'A longish value',
+			short: false,
+		  });
+
+		  attachment.fields.push({
+			label: 'Field',
+			value: 'Value',
+			short: true,
+		  });
+		attachments.push(attachment);
+        bot.reply(data, {text: 'See below...',attachments: attachments,}, (err, resp) => {
 		if (err) {
 			console.error(err);
 		}
