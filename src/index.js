@@ -126,9 +126,9 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
 							// a simplified, canonical form.
 							// We check this to decide our responses
 							if( action == "input.unknown" || action == "wisdom.unknown" ){
-								dontKnow(data);
+								dontKnow(message);
 							}else{
-								var simplified = data.result.parameters.simplified;
+								var simplified = response.result.parameters.simplified;
 								console.log("===simplified",simplified);
 								switch( simplified ){
 									case "how are you":
