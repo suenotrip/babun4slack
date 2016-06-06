@@ -319,10 +319,9 @@ function recommendProductivityTools(message,result){
 				short: false,
 			  });
             
-           attachments.push(attachment);
-        
         }
-		bot.reply(data, {text: excerpt,attachments: attachments,}, (err, resp) => {
+		attachments.push(attachment);
+		bot.reply(message, {text: excerpt,attachments: attachments,}, (err, resp) => {
 		if (err) {
 			console.error(err);
 		}
