@@ -291,11 +291,7 @@ function recommendProductivityTools(message,result){
     
     var subcat = result.parameters.productivity_tool;
     var attachments = [];
-	var attachment = {
-			title: 'This is an attachment',
-			color: '#FFCC99',
-			fields: [],
-			};
+	
     var rows;
     return db.getItemsForSubcategory(subcat).then(function(rowss){
         rows = rowss; // save a copy
@@ -313,15 +309,16 @@ function recommendProductivityTools(message,result){
             console.log("===image for %s is %s",rows[i].id,image_url);
             ///var button = fb.createButton("Tell Me More","excerpt "+row.id);
             var excerpt = row.excerpt || "Babun no have description :( Babun later learn, k?";
-			
-			attachment.fields.push({
-				label: 'Field',
-				value: 'A longish value',
-				short: false,
-			  });
+			var attachment = {
+			title: 'This is an attachment',
+			color: '#FFCC99',
+			fields: [],
+			image_url: image_url
+			};
+			attachments.push(attachment);
             
         }
-		attachments.push(attachment);
+		
 		var text="List of 10 tools";
 		bot.reply(message, {text: text,attachments: attachments,}, (err, resp) => {
 		if (err) {
