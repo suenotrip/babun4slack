@@ -56,39 +56,7 @@ function isDefined(obj) {
     return obj != null;
 }
 
-function hello(data){
-	db.getMessagesOfType("hello").then(function(fire_msgs){
-		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
-        var text = fire_msg.text;
-		var attachments = [];
-		  var attachment = {
-			title: 'This is an attachment',
-			color: '#FFCC99',
-			fields: [],
-		  };
 
-		  attachment.fields.push({
-			label: 'Field',
-			value: 'A longish value',
-			short: false,
-		  });
-
-		  attachment.fields.push({
-			label: 'Field',
-			value: 'Value',
-			short: true,
-		  });
-		attachments.push(attachment);
-        bot.reply(data, {text: text,attachments: attachments,}, (err, resp) => {
-		if (err) {
-			console.error(err);
-		}
-		});
-    },function(error){
-        console.log("[webhook_post.js]",error);
-    });
-    
-}
 
 controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambient'], (bot, message) => {
     try {
@@ -136,21 +104,63 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
                     });
 
                 request.on('response', (response) => {
-                    console.log(response);
+                console.log(response);
 
                     if (isDefined(response.result)) {
                         let responseText = response.result.fulfillment.speech;
                         let responseData = response.result.fulfillment.data;
                         let action = response.result.action;
+						
 						if( response.result.source == "agent" ){
-						switch( action ){
-							case "agent.hello.babun":
-								hello(message);
-								break;
-							default:
-								hello(message);
+							switch( action ){
+								case "agent.hello.babun":
+									hello(message);
+									break;
+								default:
+									dontKnow(message);
+							}
+						}
+						else if( response.result.source == "domains" ){
+							console.log("===domains");
+							// API.ai converts all our complex queries into
+							// a simplified, canonical form.
+							// We check this to decide our responses
+							if( action == "input.unknown" || action == "wisdom.unknown" ){
+								dontKnow(data);
+							}else{
+								var simplified = data.result.parameters.simplified;
+								console.log("===simplified",simplified);
+								switch( simplified ){
+									case "how are you":
+										howAreYou(message);
+										break;
+									case "hello":
+										hello(message);
+										break;
+									case "goodbye":
+										bye(message);
+										break;
+									case "good morning":
+										goodMorning(message);
+										break;
+									case "good night":
+										goodNight(message);
+										break;
+									case "thank you":
+										thanks(message);
+										break;
+									case "what is up":
+										watup(message);
+										break;
+									default:
+										console.log("===domains unknown/rejected action");
+										dontKnow(message);
 								}
 							}
+						}else{
+							dontKnow(message);
+						}
+						
 						
                         /* if (isDefined(responseData) && isDefined(responseData.slack)) {
                             try{
@@ -178,6 +188,221 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
     }
 });
 
+function hello(data){
+	db.getMessagesOfType("hello").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		var attachments = [];
+		  var attachment = {
+			title: 'This is an attachment',
+			color: '#FFCC99',
+			fields: [],
+		  };
+
+		  attachment.fields.push({
+			label: 'Field',
+			value: 'A longish value',
+			short: false,
+		  });
+
+		  attachment.fields.push({
+			label: 'Field',
+			value: 'Value',
+			short: true,
+		  });
+		attachments.push(attachment);
+        bot.reply(data, {text: text,attachments: attachments,}, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+    
+}
+
+//------------------------------------------------------------------------------
+function help(data){
+     db.getMessagesOfType("help").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+//------------------------------------------------------------------------------
+function bananas(data){
+     db.getMessagesOfType("bananas").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+//------------------------------------------------------------------------------
+function age(data){
+    db.getMessagesOfType("age").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+//------------------------------------------------------------------------------
+function joke(data){
+    db.getMessagesOfType("joke").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+//------------------------------------------------------------------------------
+function howAreYou(data){
+    db.getMessagesOfType("how_are_you").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+//------------------------------------------------------------------------------
+function dontKnow(data){
+     db.getMessagesOfType("unknown").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+
+//------------------------------------------------------------------------------
+function bye(data){
+     db.getMessagesOfType("bye").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+//------------------------------------------------------------------------------
+function goodMorning(data){
+     db.getMessagesOfType("good_morning").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+//------------------------------------------------------------------------------
+function goodNight(data){
+     db.getMessagesOfType("good_night").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+
+//------------------------------------------------------------------------------
+function thanks(data){
+    db.getMessagesOfType("thanks").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+//------------------------------------------------------------------------------
+function watup(data){
+    db.getMessagesOfType("what_up").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
+function gender(data){
+    db.getMessagesOfType("gender").then(function(fire_msgs){
+		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
+        var text = fire_msg.text;
+		
+        bot.reply(data, text, (err, resp) => {
+		if (err) {
+			console.error(err);
+		}
+		});
+    },function(error){
+        console.log("[webhook_post.js]",error);
+    });
+}
 
 //Create a server to prevent Heroku kills the bot
 const server = http.createServer((req, res) => res.end());
