@@ -7,6 +7,9 @@
 'use strict';
 var Adapter = require("./Adapter");
 var db = new Adapter();
+var _ = require("underscore");
+var http = require('http');
+var request = require('request');
 
 const Botkit = require('botkit');
 
@@ -58,9 +61,9 @@ function hello(data){
     //var text = "hello from api.ai";
 	db.getMessagesOfType("hello").then(function(fire_msgs){
 		console.log("===fire msgs: ",fire_msgs);
-        //var fire_msg = oneOf(fire_msgs);
-		var text=fire_msgs[0].text;
-        //var text = fire_msg.text;
+        var fire_msg = oneOf(fire_msgs);
+		//var text=fire_msgs[0].text;
+        var text = fire_msg.text;
 		//var text = "hello from api.ai";
         bot.reply(data, text, (err, resp) => {
 		if (err) {
