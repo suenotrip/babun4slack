@@ -308,7 +308,7 @@ function recommendProductivityTools(message,result){
             var row = rows[i];
             console.log("===image for %s is %s",rows[i].id,image_url);
             ///var button = fb.createButton("Tell Me More","excerpt "+row.id);
-            var excerpt = row.excerpt || "Babun no have description :( Babun later learn, k?";
+            var excerpt = row.excerpt || "No description found";
 			var attachment = {
 			title: row.title,
 			text: excerpt,
@@ -333,7 +333,7 @@ function recommendProductivityTools(message,result){
 //------------------------------------------------------------------------------
 function recommendMarketingTools(message,result){
     
-     var subcat = result.parameters.marketing_tool;
+    var subcat = result.parameters.marketing_tool;
     var attachments = [];
 	
     var rows;
@@ -352,7 +352,7 @@ function recommendMarketingTools(message,result){
             var row = rows[i];
             console.log("===image for %s is %s",rows[i].id,image_url);
             ///var button = fb.createButton("Tell Me More","excerpt "+row.id);
-            var excerpt = row.excerpt || "Babun no have description :( Babun later learn, k?";
+            var excerpt = row.excerpt || "No description found";
 			var attachment = {
 			title: row.title,
 			text: excerpt,
@@ -392,27 +392,9 @@ function name(data){
 function hello(data){
 	db.getMessagesOfType("hello").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
-        var text = fire_msg.text;
-		var attachments = [];
-		  var attachment = {
-			title: 'This is an attachment',
-			color: '#FFCC99',
-			fields: [],
-		  };
-
-		  attachment.fields.push({
-			label: 'Field',
-			value: 'A longish value',
-			short: false,
-		  });
-
-		  attachment.fields.push({
-			label: 'Field',
-			value: 'Value',
-			short: true,
-		  });
-		attachments.push(attachment);
-        bot.reply(data, {text: text,attachments: attachments,}, (err, resp) => {
+        var text = fire_msg.text+" \n\nType `Service` to submit your service requirement. \nType `Tool` to submit your product. \nType `help` to know about the tools for productivity and marketing.";
+		
+        bot.reply(data, text, (err, resp) => {
 		if (err) {
 			console.error(err);
 		}
