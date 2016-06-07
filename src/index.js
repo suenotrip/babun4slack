@@ -377,14 +377,14 @@ function developmentTool(message,result){
 
 
 
-		return db.insertToolToDevelopment(devtoolname,devtoolemail,devtooladvance,devtoolplatform,devtooldeadline,devtoolbudget,devtooldesc).then(function(result){   
-            console.log("===insertion result is",result);
+		return db.insertToolToDevelopment(devtoolname,devtoolemail,devtooladvance,devtoolplatform,devtooldeadline,devtoolbudget,devtooldesc).then(function(result1){   
+            console.log("===insertion result is",result1);
             //return fb.reply( fb.textMessage("Congratulations!! Your service request is submitted. We will get back to you soon."), senderId);
 			return db.getMessagesOfType("service_end").then(function(fire_msgs){
 				var fire_msg = oneOf(fire_msgs);
 				var text = fire_msg.text+" \n\nType `service` to submit your service requirement. \nType `submit tool` to submit your product. \nType `help` to know about the tools for productivity and marketing.";
 			
-				bot.reply(data, text, (err, resp) => {
+				bot.reply(message, text, (err, resp) => {
 				if (err) {
 					console.error(err);
 				}
@@ -401,13 +401,11 @@ function developmentTool(message,result){
 }
 
 //------------------------------------------------------------------------------
-function submitTool(data){
-	console.log("===context name",data.result.contexts[0].name);
-	var senderId = data.sessionId;
-	//var context_name=data.result.contexts[0].name;
-	//var context_lifespan=data.result.contexts[0].lifespan;
+function submitTool(message,result){
+	console.log("===context name",result.contexts[0].name);
+	
 
-	var contexts=findContextsWithLifespan(data.result.contexts)
+	var contexts=findContextsWithLifespan(result.contexts)
 	if (contexts != undefined && contexts.length != 0) {
     //ask form questions one by one
 	console.log("===context length",contexts.length);
@@ -417,10 +415,14 @@ function submitTool(data){
 		//enter a tool name
 		if(context_name.toString().trim()==="submit-tool")
 		{
-			return db.getMessagesOfType("form_product_name").then(function(messages){
-				var message = oneOf(messages);
-				var text = message.text;
-				return fb.reply( fb.textMessage(text), senderId);
+			return db.getMessagesOfType("form_product_name").then(function(fire_msgs){
+				var fire_msg = oneOf(fire_msgs);
+				var text = fire_msg.text;
+				bot.reply(message, text, (err, resp) => {
+				if (err) {
+					console.error(err);
+				}
+				});
 			},function(error){
 				console.log("[webhook_post.js]",error);
 			});
@@ -428,10 +430,14 @@ function submitTool(data){
 		//enter website of the product
 		else if (context_name.toString().trim()==="submit-toolname")
 		{
-			return db.getMessagesOfType("form_product_web").then(function(messages){
-				var message = oneOf(messages);
-				var text = message.text;
-				return fb.reply( fb.textMessage(text), senderId);
+			return db.getMessagesOfType("form_product_web").then(function(fire_msgs){
+				var fire_msg = oneOf(fire_msgs);
+				var text = fire_msg.text;
+				bot.reply(message, text, (err, resp) => {
+				if (err) {
+					console.error(err);
+				}
+				});
 			},function(error){
 				console.log("[webhook_post.js]",error);
 			});
@@ -440,10 +446,14 @@ function submitTool(data){
 		//enter description of the product
 		else if (context_name.toString().trim()==="submit-toolweb")
 		{
-			return db.getMessagesOfType("form_product_desc").then(function(messages){
-				var message = oneOf(messages);
-				var text = message.text;
-				return fb.reply( fb.textMessage(text), senderId);
+			return db.getMessagesOfType("form_product_desc").then(function(fire_msgs){
+				var fire_msg = oneOf(fire_msgs);
+				var text = fire_msg.text;
+				bot.reply(message, text, (err, resp) => {
+				if (err) {
+					console.error(err);
+				}
+				});
 			},function(error){
 				console.log("[webhook_post.js]",error);
 			});
@@ -452,10 +462,14 @@ function submitTool(data){
 		else if (context_name.toString().trim()==="submit-tooldesc")
 		{
 
-			return db.getMessagesOfType("form_product_email").then(function(messages){
-				var message = oneOf(messages);
-				var text = message.text;
-				return fb.reply( fb.textMessage(text), senderId);
+			return db.getMessagesOfType("form_product_email").then(function(fire_msgs){
+				var fire_msg = oneOf(fire_msgs);
+				var text = fire_msg.text;
+				bot.reply(message, text, (err, resp) => {
+				if (err) {
+					console.error(err);
+				}
+				});
 			},function(error){
 				console.log("[webhook_post.js]",error);
 			});	
@@ -464,38 +478,31 @@ function submitTool(data){
 	else
 	{
 	//save the params value in db
-		var toolname=data.result.parameters.toolname;
-		var website=data.result.parameters.website;
-		var description=data.result.parameters.description;
-		var email=data.result.parameters.toolemail;
+		var toolname=result.parameters.toolname;
+		var website=result.parameters.website;
+		var description=result.parameters.description;
+		var email=result.parameters.toolemail;
 		console.log("tool-name",toolname);
 		console.log("website",website);
 		console.log("description",description);
 		console.log("email",email);
 
 
-		return db.insertToolTo(toolname,website,description,email).then(function(result){   
-            console.log("===insertion result is",result);
+		return db.insertToolTo(toolname,website,description,email).then(function(result1){   
+            console.log("===insertion result is",result1);
             //return fb.reply( fb.textMessage("Congratulations!! Your tool has been submitted."), senderId);
 
-		return db.getMessagesOfType("form_product_end").then(function(messages){
-			var message = oneOf(messages);
-			var text = message.text;
+		return db.getMessagesOfType("form_product_end").then(function(fire_msgs){
+				var fire_msg = oneOf(fire_msgs);
+				var text = fire_msg.text+" \n\nType `service` to submit your service requirement. \nType `submit tool` to submit your product. \nType `help` to know about the tools for productivity and marketing.";
+			
+				bot.reply(message, text, (err, resp) => {
+				if (err) {
+					console.error(err);
+				}
+				});
 
-		var button1=fb.createButton("Services","devtool");
-		var button2=fb.createButton("Submit a tool","services");
-		var button3=fb.createButton("Find a Tool","tools");
-		var message={
-			"attachment":{
-				"type":"template",
-				"payload":{
-					"template_type":"button",
-					"text":text,
-					"buttons":[button1,button2,button3]
-							}
-						}
-					};
-			return fb.reply(message,senderId);
+		
 			},function(error){
 				console.log("[webhook_post.js]",error);
 			});
