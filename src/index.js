@@ -392,7 +392,7 @@ function name(data){
 function hello(data){
 	db.getMessagesOfType("hello").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
-        var text = fire_msg.text+" \n\nType `Service` to submit your service requirement. \nType `Tool` to submit your product. \nType `help` to know about the tools for productivity and marketing.";
+        var text = fire_msg.text+" \n\nType `service` to submit your service requirement. \nType `tool` to submit your product. \nType `help` to know about the tools for productivity and marketing.";
 		
         bot.reply(data, text, (err, resp) => {
 		if (err) {
@@ -424,7 +424,7 @@ function about(data){
 function help(data){
      db.getMessagesOfType("help").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
-        var text = fire_msg.text;
+        var text = fire_msg.text+" \n\nType `productivity tools` or `marketing tools` to find tools by category";
 		
         bot.reply(data, text, (err, resp) => {
 		if (err) {
