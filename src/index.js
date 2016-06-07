@@ -134,10 +134,10 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
 									joke(message);
 									break;
 								case "agent.submit.tool":
-									submitTool(message);
+									submitTool(message,result);
 									break;
 								case "agent.development.tool":
-									developmentTool(message);
+									developmentTool(message,result);
 									break;
 								case "agent.list.productivity.tools":
 									listProductivityTools(message,result);
@@ -232,6 +232,281 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambien
         console.error(err);
     }
 });
+
+//------------------------------------------------------------------------------
+function developmentTool(message,result){
+	console.log("===context name",result.contexts[0].name);
+	//var senderId = data.sessionId;
+
+	var contexts=findContextsWithLifespan(result.contexts)
+	if (contexts != undefined && contexts.length != 0) {
+    //ask form questions one by one
+	console.log("===context length",contexts.length);
+
+		var context=contexts.pop();
+		var context_name=context.name;
+		//enter a tool name
+		if(context_name.toString().trim()==="development-tool")
+		{
+			return db.getMessagesOfType("service_name").then(function(fire_msgs){
+				var fire_msg = oneOf(fire_msgs);
+				var text = fire_msg.text;
+				bot.reply(message, text, (err, resp) => {
+				if (err) {
+					console.error(err);
+				}
+				});
+			},function(error){
+				console.log("[webhook_post.js]",error);
+			});
+		}
+		//enter email of the product
+		else if (context_name.toString().trim()==="dev-toolname")
+		{
+			return db.getMessagesOfType("service_email").then(function(fire_msgs){
+				var fire_msg = oneOf(fire_msgs);
+				var text = fire_msg.text;
+				bot.reply(message, text, (err, resp) => {
+				if (err) {
+					console.error(err);
+				}
+				});
+			},function(error){
+				console.log("[webhook_post.js]",error);
+			});
+		}
+
+		//enter advance stage of the product
+		else if (context_name.toString().trim()==="dev-toolemail")
+		{
+			return db.getMessagesOfType("service_advance").then(function(fire_msgs){
+				var fire_msg = oneOf(fire_msgs);
+				var text = fire_msg.text;
+				bot.reply(message, text, (err, resp) => {
+				if (err) {
+					console.error(err);
+				}
+				});
+			},function(error){
+				console.log("[webhook_post.js]",error);
+			});
+		}
+		//enter platform for the product
+		else if (context_name.toString().trim()==="dev-tooladvance")
+		{
+
+			return db.getMessagesOfType("service_platform").then(function(fire_msgs){
+				var fire_msg = oneOf(fire_msgs);
+				var text = fire_msg.text;
+				bot.reply(message, text, (err, resp) => {
+				if (err) {
+					console.error(err);
+				}
+				});
+			},function(error){
+				console.log("[webhook_post.js]",error);
+			});	
+		}	
+		//enter deadline for product
+		else if (context_name.toString().trim()==="dev-toolplatform")
+		{
+
+			return db.getMessagesOfType("service_deadline").then(function(fire_msgs){
+				var fire_msg = oneOf(fire_msgs);
+				var text = fire_msg.text;
+				bot.reply(message, text, (err, resp) => {
+				if (err) {
+					console.error(err);
+				}
+				});
+			},function(error){
+				console.log("[webhook_post.js]",error);
+			});	
+		}	
+		//enter budget for product
+		else if (context_name.toString().trim()==="dev-tooldeadline")
+		{
+
+			return db.getMessagesOfType("service_budget").then(function(fire_msgs){
+				var fire_msg = oneOf(fire_msgs);
+				var text = fire_msg.text;
+				bot.reply(message, text, (err, resp) => {
+				if (err) {
+					console.error(err);
+				}
+				});
+			},function(error){
+				console.log("[webhook_post.js]",error);
+			});	
+		}	
+		//enter description for product
+		else if (context_name.toString().trim()==="dev-toolbudget")
+		{
+
+			return db.getMessagesOfType("service_description").then(function(fire_msgs){
+				var fire_msg = oneOf(fire_msgs);
+				var text = fire_msg.text;
+				bot.reply(message, text, (err, resp) => {
+				if (err) {
+					console.error(err);
+				}
+				});
+			},function(error){
+				console.log("[webhook_post.js]",error);
+			});	
+		}	
+	}
+	else
+	{
+	//save the params value in db
+		var devtoolname=result.parameters.devtoolname;
+		var devtoolemail=result.parameters.devtoolemail;
+		var devtooladvance=result.parameters.devtooladvance;
+		var devtoolplatform=result.parameters.devtoolplatform;
+		var devtooldeadline=result.parameters.devtooldeadline;
+		var devtoolbudget=result.parameters.devtoolbudget;
+		var devtooldesc=result.parameters.devtooldesc;
+
+		console.log("devtoolname: ",devtoolname);
+		console.log("devtoolemail: ",devtoolemail);
+		console.log("devtooladvance: ",devtooladvance);
+		console.log("devtoolplatform: ",devtoolplatform);
+		console.log("devtooldeadline: ",devtooldeadline);
+		console.log("devtoolbudget: ",devtoolbudget);
+		console.log("devtooldesc: ",devtooldesc);
+
+
+
+		return db.insertToolToDevelopment(devtoolname,devtoolemail,devtooladvance,devtoolplatform,devtooldeadline,devtoolbudget,devtooldesc).then(function(result){   
+            console.log("===insertion result is",result);
+            //return fb.reply( fb.textMessage("Congratulations!! Your service request is submitted. We will get back to you soon."), senderId);
+			return db.getMessagesOfType("service_end").then(function(fire_msgs){
+				var fire_msg = oneOf(fire_msgs);
+				var text = fire_msg.text+" \n\nType `service` to submit your service requirement. \nType `submit tool` to submit your product. \nType `help` to know about the tools for productivity and marketing.";
+			
+				bot.reply(data, text, (err, resp) => {
+				if (err) {
+					console.error(err);
+				}
+				});
+			
+			},function(error){
+				console.log("[webhook_post.js]",error);
+			});
+        },function(error){
+            console.log("[webhook_post.js]",error);
+        })
+	}
+
+}
+
+//------------------------------------------------------------------------------
+function submitTool(data){
+	console.log("===context name",data.result.contexts[0].name);
+	var senderId = data.sessionId;
+	//var context_name=data.result.contexts[0].name;
+	//var context_lifespan=data.result.contexts[0].lifespan;
+
+	var contexts=findContextsWithLifespan(data.result.contexts)
+	if (contexts != undefined && contexts.length != 0) {
+    //ask form questions one by one
+	console.log("===context length",contexts.length);
+
+		var context=contexts.pop();
+		var context_name=context.name;
+		//enter a tool name
+		if(context_name.toString().trim()==="submit-tool")
+		{
+			return db.getMessagesOfType("form_product_name").then(function(messages){
+				var message = oneOf(messages);
+				var text = message.text;
+				return fb.reply( fb.textMessage(text), senderId);
+			},function(error){
+				console.log("[webhook_post.js]",error);
+			});
+		}
+		//enter website of the product
+		else if (context_name.toString().trim()==="submit-toolname")
+		{
+			return db.getMessagesOfType("form_product_web").then(function(messages){
+				var message = oneOf(messages);
+				var text = message.text;
+				return fb.reply( fb.textMessage(text), senderId);
+			},function(error){
+				console.log("[webhook_post.js]",error);
+			});
+		}
+
+		//enter description of the product
+		else if (context_name.toString().trim()==="submit-toolweb")
+		{
+			return db.getMessagesOfType("form_product_desc").then(function(messages){
+				var message = oneOf(messages);
+				var text = message.text;
+				return fb.reply( fb.textMessage(text), senderId);
+			},function(error){
+				console.log("[webhook_post.js]",error);
+			});
+		}
+		//enter email for the product
+		else if (context_name.toString().trim()==="submit-tooldesc")
+		{
+
+			return db.getMessagesOfType("form_product_email").then(function(messages){
+				var message = oneOf(messages);
+				var text = message.text;
+				return fb.reply( fb.textMessage(text), senderId);
+			},function(error){
+				console.log("[webhook_post.js]",error);
+			});	
+		}	
+	}
+	else
+	{
+	//save the params value in db
+		var toolname=data.result.parameters.toolname;
+		var website=data.result.parameters.website;
+		var description=data.result.parameters.description;
+		var email=data.result.parameters.toolemail;
+		console.log("tool-name",toolname);
+		console.log("website",website);
+		console.log("description",description);
+		console.log("email",email);
+
+
+		return db.insertToolTo(toolname,website,description,email).then(function(result){   
+            console.log("===insertion result is",result);
+            //return fb.reply( fb.textMessage("Congratulations!! Your tool has been submitted."), senderId);
+
+		return db.getMessagesOfType("form_product_end").then(function(messages){
+			var message = oneOf(messages);
+			var text = message.text;
+
+		var button1=fb.createButton("Services","devtool");
+		var button2=fb.createButton("Submit a tool","services");
+		var button3=fb.createButton("Find a Tool","tools");
+		var message={
+			"attachment":{
+				"type":"template",
+				"payload":{
+					"template_type":"button",
+					"text":text,
+					"buttons":[button1,button2,button3]
+							}
+						}
+					};
+			return fb.reply(message,senderId);
+			},function(error){
+				console.log("[webhook_post.js]",error);
+			});
+        },function(error){
+            console.log("[webhook_post.js]",error);
+        })
+
+
+	}
+
+}
 
 //------------------------------------------------------------------------------
 function listProductivityTools(data,result){
@@ -392,7 +667,7 @@ function name(data){
 function hello(data){
 	db.getMessagesOfType("hello").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
-        var text = fire_msg.text+" \n\nType `service` to submit your service requirement. \nType `tool` to submit your product. \nType `help` to know about the tools for productivity and marketing.";
+        var text = fire_msg.text+" \n\nType `service` to submit your service requirement. \nType `submit tool` to submit your product. \nType `help` to know about the tools for productivity and marketing.";
 		
         bot.reply(data, text, (err, resp) => {
 		if (err) {
@@ -601,7 +876,13 @@ function gender(data){
         console.log("[webhook_post.js]",error);
     });
 }
-
+//------------------------------------------------------------------------------
+function oneOf(array){
+    if(array instanceof  Array){
+        var index = randomIndex(array);
+        return array[ index ];
+    }
+}
 //------------------------------------------------------------------------------
 function findContextsThatMatches(contexts,regex){
     var matchingContexts = [];
