@@ -10,6 +10,7 @@ var db = new Adapter();
 var _ = require("underscore");
 var request = require('request');
 var Q = require("q");
+var dashbot = require('dashbot')(process.env.DASHBOT_API_KEY).slack;
 
 const Botkit = require('botkit');
 
@@ -40,6 +41,9 @@ const controller = Botkit.slackbot({
     debug: false
     //include "log: false" to disable logging
 });
+
+controller.middleware.receive.use(dashbot.receive);
+controller.middleware.send.use(dashbot.send);
 
 var bot = controller.spawn({
     token: slackBotKey
