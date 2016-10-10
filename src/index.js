@@ -42,12 +42,14 @@ const controller = Botkit.slackbot({
     //include "log: false" to disable logging
 });
 
-controller.middleware.receive.use(dashbot.receive);
-controller.middleware.send.use(dashbot.send);
+
 
 var bot = controller.spawn({
     token: slackBotKey
 }).startRTM();
+
+controller.middleware.receive.use(dashbot.receive);
+controller.middleware.send.use(dashbot.send);
 
 function isDefined(obj) {
     if (typeof obj == 'undefined') {
