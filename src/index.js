@@ -939,7 +939,14 @@ function randomIndex(array){
 //------------------------------------------------------------------------------
 
 //Create a server to prevent Heroku kills the bot
-const server = http.createServer((req, res) => res.end());
+//const server = http.createServer((req, res) => res.end());
+const server =http.createServer(function (req, res) {
+	res.end();
+  // handle the routes
+  if (req.method == 'POST'&& req.url === '/pause') {
 
+    console.log("===Received a message from dashbot");
+  }
+});
 //Lets start our server
 server.listen((process.env.PORT || 5000), () => console.log("Server listening"));
