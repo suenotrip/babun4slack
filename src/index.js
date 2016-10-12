@@ -11,6 +11,7 @@ var _ = require("underscore");
 var request = require('request');
 var Q = require("q");
 var dashbot = require('dashbot')(process.env.DASHBOT_API_KEY).slack;
+var restify = require("restify");
 
 const Botkit = require('botkit');
 
@@ -1345,9 +1346,17 @@ function updateUserStatus(channelId,teamId,is_botactive){
 		console.log("[webhook_post.js]",error);
 	});
 }
+var server = restify.createServer();
+server.use(restify.queryParser());
+server.use(restify.bodyParser());
+
+server.post('/pause', function(req, res, next){
+
+	console.log("dashbot channel id === "+req.body.channelId);
+});
 //Create a server to prevent Heroku kills the bot
 //const server = http.createServer((req, res) => res.end());
-const server =http.createServer(function (req, res) {
+/* const server =http.createServer(function (req, res) {
 	res.end();
   // handle the routes
   if (req.method == 'POST'&& req.url === '/pause') {
@@ -1372,7 +1381,7 @@ const server =http.createServer(function (req, res) {
 	//console.log("===dashbot channel_id=",channelId);
 	//console.log("===dashbot teamId=",teamId);
 	
-	/* var paused=req.body.paused;
+	var paused=req.body.paused;
 	if(paused)
 	{
 	console.log("===paused inside true===");
@@ -1381,8 +1390,8 @@ const server =http.createServer(function (req, res) {
 	else{
 	console.log("===paused inside false===");
 	updateUserStatus(channelId,teamId,1);
-	} */
+	} 
   }
-});
+}); */
 //Lets start our server
 server.listen((process.env.PORT || 5000), () => console.log("Server listening"));
