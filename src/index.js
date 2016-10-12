@@ -1365,11 +1365,12 @@ const server =http.createServer(function (req, res) {
         });
 		
 	//console.log("dashbot" +JSON.parse(req.body));
-	var channelId=req.body.channelId;
-	var teamId=req.body.teamId;
-	console.log("===dashbot channel_id=",channelId);
-	console.log("===dashbot teamId=",teamId);
-	var paused=req.body.paused;
+	//var channelId=req.body.channelId;
+	//var teamId=req.body.teamId;
+	//console.log("===dashbot channel_id=",channelId);
+	//console.log("===dashbot teamId=",teamId);
+	
+	/* var paused=req.body.paused;
 	if(paused)
 	{
 	console.log("===paused inside true===");
@@ -1378,7 +1379,7 @@ const server =http.createServer(function (req, res) {
 	else{
 	console.log("===paused inside false===");
 	updateUserStatus(channelId,teamId,1);
-	}
+	} */
   }
 });
 //Lets start our server
