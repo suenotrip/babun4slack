@@ -81,7 +81,185 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, 
 
 		  else{
 			console.log("===control lies with bot");
-			Nlp(bot,message);
+			//Nlp(bot,message);
+					try {
+				console.log("===inside NLP function===========");
+				if (message.type == 'message') {
+					if (message.user == bot.identity.id) {
+						// message from bot can be skipped
+					}
+					else if (message.text.indexOf("<@U") == 0 && message.text.indexOf(bot.identity.id) == -1) {
+						// skip other users direct mentions
+					}
+					else {
+
+						let requestText = decoder.decode(message.text);
+						requestText = requestText.replace("’", "'");
+
+						let channel = message.channel;
+						let messageType = message.event;
+						let botId = '<@' + bot.identity.id + '>';
+						let userId = message.user;
+
+						
+						
+						
+			
+						console.log(requestText);
+						console.log(messageType);
+
+						if (requestText.indexOf(botId) > -1) {
+							requestText = requestText.replace(botId, '');
+						}
+
+						if (!sessionIds.has(channel)) {
+							sessionIds.set(channel, uuid.v1());
+						}
+
+						console.log('Start request ', requestText);
+						let request = apiAiService.textRequest(requestText,
+							{
+								sessionId: sessionIds.get(channel),
+								contexts: [
+									{
+										name: "generic",
+										parameters: {
+											slack_user_id: userId,
+											slack_channel: channel
+										}
+									}
+								]
+							});
+
+						request.on('response', (response) => {
+						console.log(response);
+
+							if (isDefined(response.result)) {
+								let responseText = response.result.fulfillment.speech;
+								let responseData = response.result.fulfillment.data;
+								let action = response.result.action;
+								var result=response.result;
+								
+								if( response.result.source == "agent" ){
+									switch( action ){
+										case "agent.hello.babun":
+											hello(message);
+											break;
+										case "agent.about":
+											about(message);
+											break;
+										case "agent.help":
+											help(message);
+											break;
+										case "agent.bananas":
+											bananas(message);
+											break;
+										case "agent.age":
+											age(message);
+											break;
+										case "agent.joke":
+											joke(message);
+											break;
+										case "agent.submit.tool":
+											submitTool(message,result);
+											break;
+										case "agent.development.tool":
+											developmentTool(message,result);
+											break;
+										case "agent.list.productivity.tools":
+											listProductivityTools(message,result);
+											break;
+										case "agent.list.marketing.tools":
+											listMarketingTools(message,result);
+											break;
+										case "agent.recommend.productivity.tools":
+											recommendProductivityTools(message,result);
+											break;
+										case "agent.recommend.marketing.tools":
+											console.log("marketing tools");
+											recommendMarketingTools(message,result);
+											break;
+										case "agent.find.me.a.tool":
+											findMeATool(message);
+											break;
+										case "agent.name.get":
+											name(message);
+											break;
+										case "agent.gender.get":
+											gender(message);
+											break;
+										default:
+											dontKnow(message);
+									}
+								}
+								else if( response.result.source == "domains" ){
+									console.log("===domains");
+									// API.ai converts all our complex queries into
+									// a simplified, canonical form.
+									// We check this to decide our responses
+									if( action == "input.unknown" || action == "wisdom.unknown" ){
+										dontKnow(message);
+									}else{
+										var simplified = response.result.parameters.simplified;
+										console.log("===simplified",simplified);
+										switch( simplified ){
+											case "how are you":
+												howAreYou(message);
+												break;
+											case "hello":
+												hello(message);
+												break;
+											case "goodbye":
+												bye(message);
+												break;
+											case "good morning":
+												goodMorning(message);
+												break;
+											case "good night":
+												goodNight(message);
+												break;
+											case "thank you":
+												thanks(message);
+												break;
+											case "what is up":
+												watup(message);
+												break;
+											default:
+												console.log("===domains unknown/rejected action");
+												dontKnow(message);
+										}
+									}
+								}else{
+									dontKnow(message);
+								}
+								
+								
+								/* if (isDefined(responseData) && isDefined(responseData.slack)) {
+									try{
+										bot.reply(message, responseData.slack);
+									} catch (err) {
+										bot.reply(message, err.message);
+									}
+								} else if (isDefined(responseText)) {
+									bot.reply(message, responseText, (err, resp) => {
+										if (err) {
+											console.error(err);
+										}
+									});
+								} */
+
+							}
+						});
+
+						request.on('error', (error) => console.error(error));
+						request.end();
+					}
+				}
+			} catch (err) {
+				console.error(err);
+			}
+	
+	
 		  }
 		}
 		else
