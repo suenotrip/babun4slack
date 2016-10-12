@@ -110,6 +110,7 @@ function insertNewBotUser(channel,userId){
 function NLP(bot,message){
 
 	try {
+		console.log("===inside NLP function===========")
         if (message.type == 'message') {
             if (message.user == bot.identity.id) {
                 // message from bot can be skipped
