@@ -194,7 +194,7 @@ Adapter.prototype.getBotUser= function(channel,userId){
 	
     const query ="SELECT is_botactive " +
                   "FROM slack_users " +
-                  "WHERE user_id = " + this.db.escape(userId)+"AND channel_id="+this.db.escape(channel);
+                  "WHERE team_id = " + this.db.escape(userId)+"AND channel_id="+this.db.escape(channel);
 				  
     var deferred = Q.defer();
     this.db.getConnection(function(err,connection){
