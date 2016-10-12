@@ -1351,9 +1351,20 @@ const server =http.createServer(function (req, res) {
 	res.end();
   // handle the routes
   if (req.method == 'POST'&& req.url === '/pause') {
-
+	
     console.log("===Received a message from dashbot");
-	console.log("dashbot" +JSON.parse(req.body));
+	
+	var jsonString = '';
+
+        req.on('data', function (data) {
+            jsonString += data;
+        });
+
+        req.on('end', function () {
+            console.log("dashbot===="+JSON.parse(jsonString));
+        });
+		
+	//console.log("dashbot" +JSON.parse(req.body));
 	var channelId=req.body.channelId;
 	var teamId=req.body.teamId;
 	console.log("===dashbot channel_id=",channelId);
