@@ -220,7 +220,7 @@ Adapter.prototype.getBotUser= function(channel,userId){
 Adapter.prototype.insertBotUser = function(channel,userId){
 	
     const query = "INSERT INTO slack_users(channel_id,team_id,is_botactive)" +
-                  "VALUES("+this.db.escape(channel) + this.db.escape(userId) + ",'1')" ;
+                  "VALUES("+this.db.escape(channel) +","+ this.db.escape(userId) + ",'1')" ;
 				  
     var deferred = Q.defer();
     this.db.getConnection(function(err,connection){
