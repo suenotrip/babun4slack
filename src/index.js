@@ -67,7 +67,49 @@ function isDefined(obj) {
 
 //controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambient'], (bot, message) => {
 controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
-    try {
+	
+		let channel = message.channel;
+		//let messageType = message.event;
+		//let botId = '<@' + bot.identity.id + '>';
+		let userId = message.user;
+		
+		db.getBotUser(channel,userId).then(function(rows){
+		console.log("==rows length"+rows.length);
+		if (rows.length>0)
+		{
+		  if(rows[0].is_botactive==0){console.log("===control lies with letsclap");}
+
+		  else{
+			console.log("===control lies with bot");
+			Nlp(bot,message);
+		  }
+		}
+		else
+		{
+			console.log("===inserting a new row to the bot_users");
+			var new_user=insertNewBotUser(channel,userId);
+			Nlp(bot,message);
+	
+		}
+
+	},function(error){
+		console.log("[webhook_post.js]",error);
+	});
+	
+});
+
+function insertNewBotUser(channel,userId){
+	return db.insertBotUser(channel,userId).then(function(result){
+		return result;
+
+	},function(error){
+		console.log("[webhook_post.js]",error);
+	});
+
+}
+function NLP(bot,message){
+
+	try {
         if (message.type == 'message') {
             if (message.user == bot.identity.id) {
                 // message from bot can be skipped
@@ -85,6 +127,10 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, 
                 let botId = '<@' + bot.identity.id + '>';
                 let userId = message.user;
 
+				
+				
+				
+	
                 console.log(requestText);
                 console.log(messageType);
 
@@ -238,8 +284,8 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, 
     } catch (err) {
         console.error(err);
     }
-});
 
+}
 //------------------------------------------------------------------------------
 function developmentTool(message,result){
 	console.log("===context name",result.contexts[0].name);
@@ -937,7 +983,13 @@ function randomIndex(array){
     return Math.floor(Math.random()*array.length);
 }
 //------------------------------------------------------------------------------
-
+function updateUserStatus(channelId,teamId,is_botactive){
+	return db.updateUserStatus(senderId,is_botactive).then(function(result){
+		return result;
+	},function(error){
+		console.log("[webhook_post.js]",error);
+	});
+}
 //Create a server to prevent Heroku kills the bot
 //const server = http.createServer((req, res) => res.end());
 const server =http.createServer(function (req, res) {
@@ -946,6 +998,20 @@ const server =http.createServer(function (req, res) {
   if (req.method == 'POST'&& req.url === '/pause') {
 
     console.log("===Received a message from dashbot");
+	var channelId=req.body.channelId;
+	var teamId=req.body.teamId;
+	console.log("===dashbot channel_id=",channelId);
+	console.log("===dashbot teamId=",teamId);
+	var paused=req.body.paused;
+	if(paused)
+	{
+	console.log("===paused inside true===");
+		updateUserStatus(channelId,teamId,0);
+	}
+	else{
+	console.log("===paused inside false===");
+	updateUserStatus(channelId,teamId,1);
+	}
   }
 });
 //Lets start our server

@@ -190,11 +190,11 @@ Adapter.prototype.insertToolToDevelopment = function(devtoolname,devtoolemail,de
 
 
 //get bot user on userid
-Adapter.prototype.getBotUser= function(userId){
+Adapter.prototype.getBotUser= function(channel,userId){
 	
     const query ="SELECT is_botactive " +
-                  "FROM bot_users " +
-                  "WHERE user_id = " + this.db.escape(userId);
+                  "FROM slack_users " +
+                  "WHERE user_id = " + this.db.escape(userId)+"AND channel_id="+this.db.escape(channel);
 				  
     var deferred = Q.defer();
     this.db.getConnection(function(err,connection){
@@ -217,10 +217,10 @@ Adapter.prototype.getBotUser= function(userId){
 //------------------------------------------------------------------------------
 //insert a new record in bot_users table
 
-Adapter.prototype.insertBotUser = function(userId){
+Adapter.prototype.insertBotUser = function(channel,userId){
 	
-    const query = "INSERT INTO bot_users(user_id,is_botactive)" +
-                  "VALUES(" + this.db.escape(userId) + ",'1')" ;
+    const query = "INSERT INTO slack_users(channel_id,team_id,is_botactive)" +
+                  "VALUES("+this.db.escape(channel) + this.db.escape(userId) + ",'1')" ;
 				  
     var deferred = Q.defer();
     this.db.getConnection(function(err,connection){
@@ -241,10 +241,10 @@ Adapter.prototype.insertBotUser = function(userId){
 }
 //------------------------------------------------------------------------------
 //update the status of user in bot_users table
-Adapter.prototype.updateUserStatus = function(userId,is_botactive){
+Adapter.prototype.updateUserStatus = function(channel,userId,is_botactive){
 	
-    const query = "UPDATE bot_users SET is_botactive =" +
-                   this.db.escape(is_botactive)+ " where user_id ="+this.db.escape(userId);
+    const query = "UPDATE slack_users SET is_botactive =" +
+                   this.db.escape(is_botactive)+ " where team_id ="+this.db.escape(userId) + "AND channel_id="+this.db.escape(channel);
 				  
     var deferred = Q.defer();
     this.db.getConnection(function(err,connection){
