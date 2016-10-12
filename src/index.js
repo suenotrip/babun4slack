@@ -1362,6 +1362,8 @@ const server =http.createServer(function (req, res) {
 
         req.on('end', function () {
             console.log("dashbot===="+JSON.parse(jsonString));
+			console.log("channel id from dashbot"+JSON.parse(jsonString).channelId);
+			
         });
 		
 	//console.log("dashbot" +JSON.parse(req.body));
