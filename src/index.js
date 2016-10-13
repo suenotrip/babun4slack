@@ -69,7 +69,7 @@ function isDefined(obj) {
 //controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambient'], (bot, message) => {
 controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
 	
-		console.log("===message from slack==="+message);
+		console.log("===message from slack==="+JSON.parse(message));
 		let channel = message.channel;
 		//let messageType = message.event;
 		//let botId = '<@' + bot.identity.id + '>';
