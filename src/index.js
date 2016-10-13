@@ -69,12 +69,13 @@ function isDefined(obj) {
 //controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambient'], (bot, message) => {
 controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
 	
-		console.log("===message from slack==="+message.team);
+		//console.log("===message from slack==="+message.team);
 		let channel = message.channel;
 		//let messageType = message.event;
 		//let botId = '<@' + bot.identity.id + '>';
 		let userId = message.user;
-		
+		var team = bot.identifyTeam();
+		console.log("==team_id"+team);
 		db.getBotUser(channel,userId).then(function(rows){
 		console.log("==rows length"+rows.length);
 		if (rows.length>0)
@@ -267,7 +268,7 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, 
 		else
 		{
 			console.log("===inserting a new row to the bot_users");
-			var new_user=insertNewBotUser(channel,userId);
+			var new_user=insertNewBotUser(channel,team);
 			//Nlp(bot,message);
 			try {
 				console.log("===inside NLP function===========");
