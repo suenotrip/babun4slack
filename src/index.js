@@ -1352,18 +1352,18 @@ server.use(restify.bodyParser());
 
 server.post('/pause', function(req, res, next){
 	console.log("dashbot channel id === "+req.body.channelId);
-	console.log("dashbot channel id === "+req.body.teamId);
+	console.log("dashbot team id === "+req.body.teamId);
 	var channel_id=req.body.channelId;
 	var team_id=req.body.teamId;
 	var paused=req.body.paused;
 	if(paused)
 	{
 		console.log("===paused inside true===");
-		updateUserStatus(channelId,teamId,0);
+		updateUserStatus(channel_id,team_id,0);
 	}
 	else{
 		console.log("===paused inside false===");
-		updateUserStatus(channelId,teamId,1);
+		updateUserStatus(channel_id,team_id,1);
 	} 
 });
 //Create a server to prevent Heroku kills the bot
