@@ -75,8 +75,11 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, 
 		//let botId = '<@' + bot.identity.id + '>';
 		let userId = message.user;
 		var team = bot.identifyTeam();
-		console.log("==team_id"+team);
-		db.getBotUser(channel,userId).then(function(rows){
+		console.log("==channel_id == "+channel);
+		console.log("==user_id == "+userId);
+		console.log("==team_id == "+team);
+		
+		db.getBotUser(channel,team).then(function(rows){
 		console.log("==rows length"+rows.length);
 		if (rows.length>0)
 		{
