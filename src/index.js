@@ -1340,7 +1340,7 @@ function randomIndex(array){
 }
 //------------------------------------------------------------------------------
 function updateUserStatus(channelId,teamId,is_botactive){
-	return db.updateUserStatus(senderId,is_botactive).then(function(result){
+	return db.updateUserStatus(channelId,teamId,is_botactive).then(function(result){
 		return result;
 	},function(error){
 		console.log("[webhook_post.js]",error);
