@@ -244,7 +244,7 @@ Adapter.prototype.insertBotUser = function(channel,userId){
 Adapter.prototype.updateUserStatus = function(channel,userId,is_botactive){
 	
     const query = "UPDATE slack_users SET is_botactive =" +
-                   this.db.escape(is_botactive)+ " where team_id ="+this.db.escape(userId) + "AND channel_id="+this.db.escape(channel);
+                   this.db.escape(is_botactive)+ " where team_id ="+this.db.escape(userId) + " AND channel_id="+this.db.escape(channel);
 				  
     var deferred = Q.defer();
     this.db.getConnection(function(err,connection){
