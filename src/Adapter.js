@@ -241,10 +241,10 @@ Adapter.prototype.insertBotUser = function(channel,userId){
 }
 //------------------------------------------------------------------------------
 //update the status of user in bot_users table
-Adapter.prototype.updateUserStatus = function(channel,userId,is_botactive){
+Adapter.prototype.updateUserStatus = function(id,is_botactive){
 	
     const query = "UPDATE slack_users SET is_botactive =" +
-                   this.db.escape(is_botactive)+ " where team_id ="+this.db.escape(userId) + " AND channel_id="+this.db.escape(channel);
+                   this.db.escape(is_botactive)+ " where id ="+this.db.escape(id);
 				  
 	console.log("query sent=="+query);
 	

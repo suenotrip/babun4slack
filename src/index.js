@@ -1364,11 +1364,19 @@ server.post('/pause', function(req, res, next){
 	if(paused)
 	{
 		console.log("===paused inside true===");
-		updateUserStatus(channel_id,team_id,0);
+		db.getBotUser(channel,team).then(function(rows){
+			console.log("==row id =="+rows[0].id);	
+			var id=rows[0].id;
+			updateUserStatus(id,0);
+		}
 	}
 	else{
 		console.log("===paused inside false===");
-		updateUserStatus(channel_id,team_id,1);
+		db.getBotUser(channel,team).then(function(rows){
+			console.log("==row id =="+rows[0].id);	
+			var id=rows[0].id;
+			updateUserStatus(id,0);
+		}
 	} 
 });
 //Create a server to prevent Heroku kills the bot
