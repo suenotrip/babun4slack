@@ -1376,7 +1376,7 @@ server.post('/pause', function(req, res, next){
 		db.getBotUser(channel_id,team_id).then(function(rows){
 			console.log("==row id =="+rows[0].id);	
 			var id=rows[0].id;
-			updateUserStatus(id,0);
+			updateUserStatus(id,1);
 		});
 	} 
 });
