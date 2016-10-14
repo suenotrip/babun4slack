@@ -38,11 +38,33 @@ const apiAiService = apiai(apiAiAccessToken, apiaiOptions);
 
 const sessionIds = new Map();
 
-const controller = Botkit.slackbot({
+/* const controller = Botkit.slackbot({
     debug: true
     //include "log: false" to disable logging
-});
+}); */
 
+const controller =Botkit.slackbot({
+  json_file_store: './db_slackbutton_bot/',
+}).configureSlackApp(
+  {
+    clientId: process.env.clientId||'90897144192.90893484596',
+    clientSecret: process.env.clientSecret||'be6d0a3f69b597603750ee002ddfec22',
+    scopes: ['bot'],
+  }
+);
+//var port=process.env.port||'';
+
+controller.setupWebserver(process.env.port,function(err,webserver) {
+  controller.createWebhookEndpoints(controller.webserver);
+
+  controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
+    if (err) {
+      res.status(500).send('ERROR: ' + err);
+    } else {
+      res.send('Success!');
+    }
+  });
+});
 
 
 var bot = controller.spawn({

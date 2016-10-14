@@ -25,6 +25,7 @@ function Adapter(){
         return new Adapter();
     }
 }
+
 //------------------------------------------------------------------------------
 Adapter.prototype.getMessagesOfType = function(type){
 console.log("loc11");
@@ -36,6 +37,7 @@ console.log("loc11");
         console.log("[Adapter.js getmessageOfType]",error);
     });
 }
+
 //------------------------------------------------------------------------------
 Adapter.prototype.getItemsForSubcategory = function(subcat) {
     subcat = "%" + subcat + "%";
@@ -64,6 +66,7 @@ Adapter.prototype.getItemsForSubcategory = function(subcat) {
     });
     return deferred.promise;
 };
+
 //------------------------------------------------------------------------------
 Adapter.prototype.getIconFor = function(id) {
     const path = "http://www.babun.io/wp-content/uploads/";
