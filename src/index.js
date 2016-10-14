@@ -1368,7 +1368,7 @@ server.post('/pause', function(req, res, next){
 			console.log("==row id =="+rows[0].id);	
 			var id=rows[0].id;
 			updateUserStatus(id,0);
-		}
+		});
 	}
 	else{
 		console.log("===paused inside false===");
@@ -1376,7 +1376,7 @@ server.post('/pause', function(req, res, next){
 			console.log("==row id =="+rows[0].id);	
 			var id=rows[0].id;
 			updateUserStatus(id,0);
-		}
+		});
 	} 
 });
 //Create a server to prevent Heroku kills the bot
