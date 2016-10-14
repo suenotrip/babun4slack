@@ -1404,12 +1404,12 @@ server.post('/pause', function(req, res, next){
 	} 
 });
 
-server.get('/oauth', function(req, res, next){
+/* server.get('/oauth', function(req, res, next){
 
 	
       res.send('Success!');
     
-});
+}); */
 //Create a server to prevent Heroku kills the bot
 //const server = http.createServer((req, res) => res.end());
 /* const server =http.createServer(function (req, res) {
