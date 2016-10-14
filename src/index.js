@@ -1440,7 +1440,7 @@ var perform_auth = function(auth_code, res){
         var _body = JSON.parse(body)
         console.log("New user auth")
         console.log(_body)
-		res.sendStatus(200)
+		res.end()
 
         //register_team(_body.access_token, _body.team_name, _body.team_id, res)
       }
