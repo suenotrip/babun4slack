@@ -1405,11 +1405,9 @@ server.post('/pause', function(req, res, next){
 
 server.get('/oauth', function(req, res, next){
 
-	if (err) {
-      res.status(500).send('ERROR: ' + err);
-    } else {
+	
       res.send('Success!');
-    }
+    
 });
 //Create a server to prevent Heroku kills the bot
 //const server = http.createServer((req, res) => res.end());
