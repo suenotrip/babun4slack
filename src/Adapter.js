@@ -192,7 +192,7 @@ Adapter.prototype.insertToolToDevelopment = function(devtoolname,devtoolemail,de
 //get bot user on userid
 Adapter.prototype.getBotUser= function(channel,userId){
 	
-    const query ="SELECT is_botactive " +
+    const query ="SELECT id,is_botactive " +
                   "FROM slack_users " +
                   "WHERE team_id = " + this.db.escape(userId)+"AND channel_id="+this.db.escape(channel);
 				  
