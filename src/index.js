@@ -1358,6 +1358,7 @@ server.use(restify.bodyParser());
 server.post('/pause', function(req, res, next){
 	console.log("dashbot channel id === "+req.body.channelId);
 	console.log("dashbot team id === "+req.body.teamId);
+	res.end();
 	var channel_id=req.body.channelId;
 	var team_id=req.body.teamId;
 	var paused=req.body.paused;
