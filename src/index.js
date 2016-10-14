@@ -54,7 +54,7 @@ const controller =Botkit.slackbot({
 );
 //var port=process.env.port||'';
 
-controller.setupWebserver(process.env.port,function(err,webserver) {
+/* controller.setupWebserver(process.env.port,function(err,webserver) {
   controller.createWebhookEndpoints(controller.webserver);
 
   controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
@@ -64,7 +64,7 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
       res.send('Success!');
     }
   });
-});
+}); */
 
 
 var bot = controller.spawn({
