@@ -1364,7 +1364,7 @@ server.post('/pause', function(req, res, next){
 	if(paused)
 	{
 		console.log("===paused inside true===");
-		db.getBotUser(channel,team).then(function(rows){
+		db.getBotUser(channel_id,team_id).then(function(rows){
 			console.log("==row id =="+rows[0].id);	
 			var id=rows[0].id;
 			updateUserStatus(id,0);
@@ -1372,7 +1372,7 @@ server.post('/pause', function(req, res, next){
 	}
 	else{
 		console.log("===paused inside false===");
-		db.getBotUser(channel,team).then(function(rows){
+		db.getBotUser(channel_id,team_id).then(function(rows){
 			console.log("==row id =="+rows[0].id);	
 			var id=rows[0].id;
 			updateUserStatus(id,0);
