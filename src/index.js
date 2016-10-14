@@ -53,9 +53,9 @@ const controller =Botkit.slackbot({
   }
 );
 
-var port=process.env.port||'5000';
+//var port=process.env.port||'5000';
 
-controller.setupWebserver(port,function(err,webserver) {
+/* controller.setupWebserver(port,function(err,webserver) {
   controller.createWebhookEndpoints(controller.webserver);
 
   controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
@@ -65,7 +65,7 @@ controller.setupWebserver(port,function(err,webserver) {
       res.send('Success!');
     }
   });
-});
+}); */
 
 
 var bot = controller.spawn({
@@ -1404,12 +1404,45 @@ server.post('/pause', function(req, res, next){
 	} 
 });
 
-/* server.get('/oauth', function(req, res, next){
+server.get('/oauth', function(req, res, next){
 
-	
-      res.send('Success!');
-    
-}); */
+	 console.log("================== START TEAM REGISTRATION ==================")
+    //temporary authorization code
+    var auth_code = req.query.code
+
+    if(!auth_code){
+      //user refused auth
+      res.redirect('/')
+    }
+    else{
+      console.log("New use auth code " + auth_code)
+      perform_auth(auth_code, res)
+    }
+});
+
+var perform_auth = function(auth_code, res){
+    //post code, app ID, and app secret, to get token
+    var auth_adresse = 'https://slack.com/api/oauth.access?'
+    auth_adresse += 'client_id=' + process.env.SLACK_ID||'90897144192.90893484596'
+    auth_adresse += '&client_secret=' + process.env.SLACK_SECRET||'be6d0a3f69b597603750ee002ddfec22'
+    auth_adresse += '&code=' + auth_code
+    auth_adresse += '&redirect_uri=' + url + "oauth"
+
+    request.get(auth_adresse, function (error, response, body) {
+      if (error){
+        console.log(error)
+        res.sendStatus(500)
+      }
+
+      else{
+        var _body = JSON.parse(body)
+        console.log("New user auth")
+        console.log(_body)
+
+        //register_team(_body.access_token, _body.team_name, _body.team_id, res)
+      }
+    })
+  }
 //Create a server to prevent Heroku kills the bot
 //const server = http.createServer((req, res) => res.end());
 /* const server =http.createServer(function (req, res) {
