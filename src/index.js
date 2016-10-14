@@ -1421,10 +1421,12 @@ server.get('/oauth', function(req, res, next){
 });
 
 var perform_auth = function(auth_code, res){
+	var client_id='90897144192.90893484596';
+	var secret_id='be6d0a3f69b597603750ee002ddfec22';
     //post code, app ID, and app secret, to get token
     var auth_adresse = 'https://slack.com/api/oauth.access?'
-    auth_adresse += 'client_id=' + process.env.SLACK_ID||'90897144192.90893484596'
-    auth_adresse += '&client_secret=' + process.env.SLACK_SECRET||'be6d0a3f69b597603750ee002ddfec22'
+    auth_adresse += 'client_id=' + client_id
+    auth_adresse += '&client_secret=' + secret_id
     auth_adresse += '&code=' + auth_code
     auth_adresse += '&redirect_uri=' + "https://babun4slack.herokuapp.com/" + "oauth"
 
