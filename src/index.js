@@ -1426,7 +1426,7 @@ var perform_auth = function(auth_code, res){
     auth_adresse += 'client_id=' + process.env.SLACK_ID||'90897144192.90893484596'
     auth_adresse += '&client_secret=' + process.env.SLACK_SECRET||'be6d0a3f69b597603750ee002ddfec22'
     auth_adresse += '&code=' + auth_code
-    auth_adresse += '&redirect_uri=' + url + "oauth"
+    auth_adresse += '&redirect_uri=' + "https://babun4slack.herokuapp.com/" + "oauth"
 
     request.get(auth_adresse, function (error, response, body) {
       if (error){
