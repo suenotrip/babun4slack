@@ -1403,7 +1403,7 @@ server.post('/pause', function(req, res, next){
 	} 
 });
 
-server.post('/oauth', function(req, res, next){
+server.get('/oauth', function(req, res, next){
 
 	if (err) {
       res.status(500).send('ERROR: ' + err);
