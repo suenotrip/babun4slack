@@ -52,9 +52,10 @@ const controller =Botkit.slackbot({
     scopes: ['bot'],
   }
 );
-//var port=process.env.port||'';
 
-/* controller.setupWebserver(process.env.port,function(err,webserver) {
+var port=process.env.port||'5000';
+
+controller.setupWebserver(port,function(err,webserver) {
   controller.createWebhookEndpoints(controller.webserver);
 
   controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
@@ -64,7 +65,7 @@ const controller =Botkit.slackbot({
       res.send('Success!');
     }
   });
-}); */
+});
 
 
 var bot = controller.spawn({
