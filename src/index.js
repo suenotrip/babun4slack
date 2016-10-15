@@ -49,7 +49,7 @@ const controller =Botkit.slackbot({
   {
     clientId: process.env.clientId||'90897144192.90893484596',
     clientSecret: process.env.clientSecret||'be6d0a3f69b597603750ee002ddfec22',
-    scopes: ['bot'],
+    scopes: ['bot','incoming-webhook','commands'],
   }
 );
 
@@ -118,11 +118,10 @@ controller.on('create_bot',function(bot,config) {
           convo.say('You must now /invite me to a channel so that I can be of use!');
         }
       });
-
     });
   }
-
 });
+
 // Handle events related to the websocket connection to Slack
 controller.on('rtm_open',function(bot) {
   console.log('** The RTM api just connected!');
@@ -138,7 +137,6 @@ controller.hears('hello','direct_message',function(bot,message) {
 });
 
 controller.storage.teams.all(function(err,teams) {
-
   if (err) {
     throw new Error(err);
   }
@@ -155,7 +153,6 @@ controller.storage.teams.all(function(err,teams) {
       });
     }
   }
-
 });
 
 //controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambient'], (bot, message) => {
