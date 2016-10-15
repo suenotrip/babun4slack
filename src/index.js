@@ -68,11 +68,11 @@ const controller =Botkit.slackbot({
 }); */
 
 
-/* var bot = controller.spawn({
+var bot = controller.spawn({
     token: slackBotKey
  }).startRTM();
 
- */
+
 //console.log('Starting in Beep Boop multi-team mode');
 //require('beepboop-botkit').start(controller);
   
