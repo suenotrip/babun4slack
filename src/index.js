@@ -68,13 +68,13 @@ const controller =Botkit.slackbot({
 }); */
 
 
-// var bot = controller.spawn({
-    // token: slackBotKey
-// }).startRTM();
+var bot = controller.spawn({
+    token: slackBotKey
+ }).startRTM();
 
 
 //console.log('Starting in Beep Boop multi-team mode');
-require('beepboop-botkit').start(controller, { debug: true });
+//require('beepboop-botkit').start(controller);
   
   
 controller.middleware.receive.use(dashbot.receive);
@@ -92,9 +92,37 @@ function isDefined(obj) {
     return obj != null;
 }
 
-controller.on('bot_channel_join', function (bot, message) {
-  bot.reply(message, "I'm here!")
-})
+// just a simple way to make sure we don't
+// connect to the RTM twice for the same team
+var _bots = {};
+function trackBot(bot) {
+  _bots[bot.config.token] = bot;
+}
+
+controller.on('create_bot',function(bot,config) {
+
+  if (_bots[bot.config.token]) {
+    // already online! do nothing.
+  } else {
+    bot.startRTM(function(err) {
+
+      if (!err) {
+        trackBot(bot);
+      }
+
+      bot.startPrivateConversation({user: config.createdBy},function(err,convo) {
+        if (err) {
+          console.log(err);
+        } else {
+          convo.say('I am a bot that has just joined your team');
+          convo.say('You must now /invite me to a channel so that I can be of use!');
+        }
+      });
+
+    });
+  }
+
+});
 
 //controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambient'], (bot, message) => {
 controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
