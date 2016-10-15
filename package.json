@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "apiai": "^2.0.0",
+    "beepboop-botkit": "^1.4.1",
     "botkit": "^0.4.0",
     "dashbot": "^0.7.4",
     "firebase": "^2.4.2",

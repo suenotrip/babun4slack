@@ -68,10 +68,15 @@ const controller =Botkit.slackbot({
 }); */
 
 
-var bot = controller.spawn({
-    token: slackBotKey
-}).startRTM();
+// var bot = controller.spawn({
+    // token: slackBotKey
+// }).startRTM();
 
+
+//console.log('Starting in Beep Boop multi-team mode');
+require('beepboop-botkit').start(controller, { debug: true });
+  
+  
 controller.middleware.receive.use(dashbot.receive);
 controller.middleware.send.use(dashbot.send);
 
@@ -87,7 +92,9 @@ function isDefined(obj) {
     return obj != null;
 }
 
-
+controller.on('bot_channel_join', function (bot, message) {
+  bot.reply(message, "I'm here!")
+})
 
 //controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambient'], (bot, message) => {
 controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
