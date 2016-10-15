@@ -123,6 +123,40 @@ controller.on('create_bot',function(bot,config) {
   }
 
 });
+// Handle events related to the websocket connection to Slack
+controller.on('rtm_open',function(bot) {
+  console.log('** The RTM api just connected!');
+});
+
+controller.on('rtm_close',function(bot) {
+  console.log('** The RTM api just closed');
+  // you may want to attempt to re-open
+});
+
+controller.hears('hello','direct_message',function(bot,message) {
+  bot.reply(message,'Hello!');
+});
+
+controller.storage.teams.all(function(err,teams) {
+
+  if (err) {
+    throw new Error(err);
+  }
+
+  // connect all teams with bots up to slack!
+  for (var t  in teams) {
+    if (teams[t].bot) {
+      controller.spawn(teams[t]).startRTM(function(err, bot) {
+        if (err) {
+          console.log('Error connecting bot to Slack:',err);
+        } else {
+          trackBot(bot);
+        }
+      });
+    }
+  }
+
+});
 
 //controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambient'], (bot, message) => {
 controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
