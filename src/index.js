@@ -71,7 +71,14 @@ const controller =Botkit.slackbot({
 var bot = controller.spawn({
     token: slackBotKey
  }).startRTM();
+ 
+ 
 
+var bot = controller.spawn({
+    token: 'xoxb-46268166480-BMaEdOji6QhnWYRsT7li3YTU'
+ }).startRTM();
+ 
+ 
 
 //console.log('Starting in Beep Boop multi-team mode');
 //require('beepboop-botkit').start(controller);
@@ -1508,10 +1515,46 @@ var perform_auth = function(auth_code, res){
         console.log(_body)
 		res.end()
 
-        //register_team(_body.access_token, _body.team_name, _body.team_id, res)
+        //register_team(_body.access_token, _body.team_name, _body.team_id)
       }
     })
   }
+  
+ /*  var register_team = function(token, name, id){
+
+    Team.findOrCreate({team_id: id}, //search option. User is identified by team id
+                      {
+                        access_token: token, //added on creation
+                        team_name: name
+                      }, function(err, team, created) {
+      if(created){
+        console.log(name + ": new team registered")
+        console.log(team)
+        //add a thank you / confirmation note
+        //res.redirect('/')
+      }
+      else{
+        console.log(name + ": team already exists")
+
+        //update parameters
+        team.team_name = name
+        team.access_token = token
+
+        team.save(function(err){
+          if (err){
+            console.log(err)
+            //res.sendStatus(500)
+          }
+          else{
+            console.log(name + ": info updated")
+            //add a thank you / confirmation note
+            //res.redirect('/')
+          }
+        })
+      }
+    })
+  } */
+  
 //Create a server to prevent Heroku kills the bot
 //const server = http.createServer((req, res) => res.end());
 /* const server =http.createServer(function (req, res) {
