@@ -55,7 +55,7 @@ const controller =Botkit.slackbot({
 
 //var port=process.env.port||'5000';
 
-/* controller.setupWebserver(port,function(err,webserver) {
+controller.setupWebserver(port,function(err,webserver) {
   controller.createWebhookEndpoints(controller.webserver);
 
   controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
@@ -65,27 +65,27 @@ const controller =Botkit.slackbot({
       res.send('Success!');
     }
   });
-}); */
+});
 
 
-var bot = controller.spawn({
+/* var bot = controller.spawn({
     token: slackBotKey
  }).startRTM();
  
- 
+  */
 
-var bot = controller.spawn({
+/* var bot = controller.spawn({
     token: 'xoxb-46268166480-BMaEdOji6QhnWYRsT7li3YTU'
  }).startRTM();
- 
+  */
  
 
 //console.log('Starting in Beep Boop multi-team mode');
 //require('beepboop-botkit').start(controller);
   
   
-controller.middleware.receive.use(dashbot.receive);
-controller.middleware.send.use(dashbot.send);
+//controller.middleware.receive.use(dashbot.receive);
+//controller.middleware.send.use(dashbot.send);
 
 function isDefined(obj) {
     if (typeof obj == 'undefined') {
@@ -143,24 +143,7 @@ controller.hears('hello','direct_message',function(bot,message) {
   bot.reply(message,'Hello!');
 });
 
-controller.storage.teams.all(function(err,teams) {
-  if (err) {
-    throw new Error(err);
-  }
 
-  // connect all teams with bots up to slack!
-  for (var t  in teams) {
-    if (teams[t].bot) {
-      controller.spawn(teams[t]).startRTM(function(err, bot) {
-        if (err) {
-          console.log('Error connecting bot to Slack:',err);
-        } else {
-          trackBot(bot);
-        }
-      });
-    }
-  }
-});
 
 //controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention', 'ambient'], (bot, message) => {
 controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
@@ -1447,11 +1430,31 @@ function updateUserStatus(channelId,teamId,is_botactive){
 		console.log("[webhook_post.js]",error);
 	});
 }
-var server = restify.createServer();
-server.use(restify.queryParser());
-server.use(restify.bodyParser());
 
-server.post('/pause', function(req, res, next){
+controller.storage.teams.all(function(err,teams) {
+  if (err) {
+    throw new Error(err);
+  }
+
+  // connect all teams with bots up to slack!
+  for (var t  in teams) {
+    if (teams[t].bot) {
+      controller.spawn(teams[t]).startRTM(function(err, bot) {
+        if (err) {
+          console.log('Error connecting bot to Slack:',err);
+        } else {
+          trackBot(bot);
+        }
+      });
+    }
+  }
+});
+
+/* var server = restify.createServer();
+server.use(restify.queryParser());
+server.use(restify.bodyParser()); */
+
+/* server.post('/pause', function(req, res, next){
 	console.log("dashbot channel id === "+req.body.channelId);
 	console.log("dashbot team id === "+req.body.teamId);
 	res.end();
@@ -1475,9 +1478,9 @@ server.post('/pause', function(req, res, next){
 			updateUserStatus(id,1);
 		});
 	} 
-});
+}); */
 
-server.get('/oauth', function(req, res, next){
+/* server.get('/oauth', function(req, res, next){
 
 	 console.log("================== START TEAM REGISTRATION ==================")
     //temporary authorization code
@@ -1489,11 +1492,11 @@ server.get('/oauth', function(req, res, next){
     }
     else{
       console.log("New use auth code " + auth_code)
-      perform_auth(auth_code, res)
-    }
+      //perform_auth(auth_code, res)
+    } */
 });
 
-var perform_auth = function(auth_code, res){
+/* var perform_auth = function(auth_code, res){
 	var client_id='90897144192.90893484596';
 	var secret_id='be6d0a3f69b597603750ee002ddfec22';
     //post code, app ID, and app secret, to get token
@@ -1518,7 +1521,7 @@ var perform_auth = function(auth_code, res){
         //register_team(_body.access_token, _body.team_name, _body.team_id)
       }
     })
-  }
+  } */
   
  /*  var register_team = function(token, name, id){
 
@@ -1595,4 +1598,4 @@ var perform_auth = function(auth_code, res){
   }
 }); */
 //Lets start our server
-server.listen((process.env.PORT || 5000), () => console.log("Server listening"));
+//server.listen((process.env.PORT || 5000), () => console.log("Server listening"));
