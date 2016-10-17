@@ -58,6 +58,32 @@ var port=process.env.PORT || 5000;
 controller.setupWebserver(port,function(err,webserver) {
   controller.createWebhookEndpoints(controller.webserver);
 
+  controller.webserver.post('/pause', function(req, res, next){
+	console.log("dashbot channel id === "+req.body.channelId);
+	console.log("dashbot team id === "+req.body.teamId);
+	res.end();
+	var channel_id=req.body.channelId;
+	var team_id=req.body.teamId;
+	var paused=req.body.paused;
+	if(paused)
+	{
+		console.log("===paused inside true===");
+		db.getBotUser(channel_id,team_id).then(function(rows){
+			console.log("==row id =="+rows[0].id);	
+			var id=rows[0].id;
+			updateUserStatus(id,0);
+		});
+	}
+	else{
+		console.log("===paused inside false===");
+		db.getBotUser(channel_id,team_id).then(function(rows){
+			console.log("==row id =="+rows[0].id);	
+			var id=rows[0].id;
+			updateUserStatus(id,1);
+		});
+	} 
+});
+
   controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
     if (err) {
       res.status(500).send('ERROR: ' + err);
@@ -84,8 +110,8 @@ controller.setupWebserver(port,function(err,webserver) {
 //require('beepboop-botkit').start(controller);
   
   
-//controller.middleware.receive.use(dashbot.receive);
-//controller.middleware.send.use(dashbot.send);
+controller.middleware.receive.use(dashbot.receive);
+controller.middleware.send.use(dashbot.send);
 
 function isDefined(obj) {
     if (typeof obj == 'undefined') {
