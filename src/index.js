@@ -53,9 +53,9 @@ const controller =Botkit.slackbot({
   }
 );
 
-//var port=process.env.port||'5000';
+var port=process.env.port||'3000';
 
-controller.setupWebserver(process.env.port,function(err,webserver) {
+controller.setupWebserver(port,function(err,webserver) {
   controller.createWebhookEndpoints(controller.webserver);
 
   controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
