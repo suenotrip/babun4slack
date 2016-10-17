@@ -228,7 +228,7 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, 
 								if( response.result.source == "agent" ){
 									switch( action ){
 										case "agent.hello.babun":
-											hello(message);
+											hello(message,bot);
 											break;
 										case "agent.about":
 											about(message);
@@ -292,7 +292,7 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, 
 												howAreYou(message);
 												break;
 											case "hello":
-												hello(message);
+												hello(message,bot);
 												break;
 											case "goodbye":
 												bye(message);
@@ -419,7 +419,7 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, 
 											about(message);
 											break;
 										case "agent.help":
-											help(message);
+											help(message,bot);
 											break;
 										case "agent.bananas":
 											bananas(message);
@@ -477,7 +477,7 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, 
 												howAreYou(message);
 												break;
 											case "hello":
-												hello(message);
+												hello(message,bot);
 												break;
 											case "goodbye":
 												bye(message);
@@ -1164,7 +1164,7 @@ function name(data){
         console.log("[webhook_post.js]",error);
     });
 }
-function hello(data){
+function hello(data,bot){
 	db.getMessagesOfType("hello").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text+" \n\nType `service` to submit your service requirement. \nType `submit tool` to submit your product. \nType `help` to know about the tools for productivity and marketing.";
