@@ -1493,8 +1493,8 @@ server.use(restify.bodyParser()); */
     else{
       console.log("New use auth code " + auth_code)
       //perform_auth(auth_code, res)
-    } */
-});
+    } 
+});*/
 
 /* var perform_auth = function(auth_code, res){
 	var client_id='90897144192.90893484596';
