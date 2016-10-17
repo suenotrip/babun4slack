@@ -231,50 +231,50 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, 
 											hello(message,bot);
 											break;
 										case "agent.about":
-											about(message);
+											about(message,bot);
 											break;
 										case "agent.help":
-											help(message);
+											help(message,bot);
 											break;
 										case "agent.bananas":
-											bananas(message);
+											bananas(message,bot);
 											break;
 										case "agent.age":
-											age(message);
+											age(message,bot);
 											break;
 										case "agent.joke":
-											joke(message);
+											joke(message,bot);
 											break;
 										case "agent.submit.tool":
-											submitTool(message,result);
+											submitTool(message,result,bot);
 											break;
 										case "agent.development.tool":
-											developmentTool(message,result);
+											developmentTool(message,result,bot);
 											break;
 										case "agent.list.productivity.tools":
-											listProductivityTools(message,result);
+											listProductivityTools(message,result,bot);
 											break;
 										case "agent.list.marketing.tools":
-											listMarketingTools(message,result);
+											listMarketingTools(message,result,bot);
 											break;
 										case "agent.recommend.productivity.tools":
-											recommendProductivityTools(message,result);
+											recommendProductivityTools(message,result,bot);
 											break;
 										case "agent.recommend.marketing.tools":
 											console.log("marketing tools");
-											recommendMarketingTools(message,result);
+											recommendMarketingTools(message,result,bot);
 											break;
 										case "agent.find.me.a.tool":
-											findMeATool(message);
+											findMeATool(message,bot);
 											break;
 										case "agent.name.get":
-											name(message);
+											name(message,bot);
 											break;
 										case "agent.gender.get":
-											gender(message);
+											gender(message,bot);
 											break;
 										default:
-											dontKnow(message);
+											dontKnow(message,bot);
 									}
 								}
 								else if( response.result.source == "domains" ){
@@ -289,33 +289,33 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, 
 										console.log("===simplified",simplified);
 										switch( simplified ){
 											case "how are you":
-												howAreYou(message);
+												howAreYou(message,bot);
 												break;
 											case "hello":
 												hello(message,bot);
 												break;
 											case "goodbye":
-												bye(message);
+												bye(message,bot);
 												break;
 											case "good morning":
-												goodMorning(message);
+												goodMorning(message,bot);
 												break;
 											case "good night":
-												goodNight(message);
+												goodNight(message,bot);
 												break;
 											case "thank you":
-												thanks(message);
+												thanks(message,bot);
 												break;
 											case "what is up":
-												watup(message);
+												watup(message,bot);
 												break;
 											default:
 												console.log("===domains unknown/rejected action");
-												dontKnow(message);
+												dontKnow(message,bot);
 										}
 									}
 								}else{
-									dontKnow(message);
+									dontKnow(message,bot);
 								}
 								
 								
@@ -413,53 +413,53 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, 
 								if( response.result.source == "agent" ){
 									switch( action ){
 										case "agent.hello.babun":
-											hello(message);
+											hello(message,bot);
 											break;
 										case "agent.about":
-											about(message);
+											about(message,bot);
 											break;
 										case "agent.help":
 											help(message,bot);
 											break;
 										case "agent.bananas":
-											bananas(message);
+											bananas(message,bot);
 											break;
 										case "agent.age":
-											age(message);
+											age(message,bot);
 											break;
 										case "agent.joke":
-											joke(message);
+											joke(message,bot);
 											break;
 										case "agent.submit.tool":
-											submitTool(message,result);
+											submitTool(message,result,bot);
 											break;
 										case "agent.development.tool":
-											developmentTool(message,result);
+											developmentTool(message,result,bot);
 											break;
 										case "agent.list.productivity.tools":
-											listProductivityTools(message,result);
+											listProductivityTools(message,result,bot);
 											break;
 										case "agent.list.marketing.tools":
-											listMarketingTools(message,result);
+											listMarketingTools(message,result,bot);
 											break;
 										case "agent.recommend.productivity.tools":
-											recommendProductivityTools(message,result);
+											recommendProductivityTools(message,result,bot);
 											break;
 										case "agent.recommend.marketing.tools":
 											console.log("marketing tools");
-											recommendMarketingTools(message,result);
+											recommendMarketingTools(message,result,bot);
 											break;
 										case "agent.find.me.a.tool":
-											findMeATool(message);
+											findMeATool(message,bot);
 											break;
 										case "agent.name.get":
-											name(message);
+											name(message,bot);
 											break;
 										case "agent.gender.get":
-											gender(message);
+											gender(message,bot);
 											break;
 										default:
-											dontKnow(message);
+											dontKnow(message,bot);
 									}
 								}
 								else if( response.result.source == "domains" ){
@@ -474,33 +474,33 @@ controller.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], (bot, 
 										console.log("===simplified",simplified);
 										switch( simplified ){
 											case "how are you":
-												howAreYou(message);
+												howAreYou(message,bot);
 												break;
 											case "hello":
 												hello(message,bot);
 												break;
 											case "goodbye":
-												bye(message);
+												bye(message,bot);
 												break;
 											case "good morning":
-												goodMorning(message);
+												goodMorning(message,bot);
 												break;
 											case "good night":
-												goodNight(message);
+												goodNight(message,bot);
 												break;
 											case "thank you":
-												thanks(message);
+												thanks(message,bot);
 												break;
 											case "what is up":
-												watup(message);
+												watup(message,bot);
 												break;
 											default:
 												console.log("===domains unknown/rejected action");
-												dontKnow(message);
+												dontKnow(message,bot);
 										}
 									}
 								}else{
-									dontKnow(message);
+									dontKnow(message,bot);
 								}
 								
 								
@@ -727,7 +727,7 @@ function NLP(bot,message){
 
 }
 //------------------------------------------------------------------------------
-function developmentTool(message,result){
+function developmentTool(message,result,bot){
 	console.log("===context name",result.contexts[0].name);
 	//var senderId = data.sessionId;
 
@@ -894,7 +894,7 @@ function developmentTool(message,result){
 }
 
 //------------------------------------------------------------------------------
-function submitTool(message,result){
+function submitTool(message,result,bot){
 	console.log("===context name",result.contexts[0].name);
 	
 
@@ -1009,7 +1009,7 @@ function submitTool(message,result){
 }
 
 //------------------------------------------------------------------------------
-function listProductivityTools(data,result){
+function listProductivityTools(data,result,bot){
     console.log("===listing productivity subcategories");
     const MAX_PAGE_NO = 3; // page numbers begin at 0
     //var senderId = data.sessionId;
@@ -1037,7 +1037,7 @@ function listProductivityTools(data,result){
 }
 
 //------------------------------------------------------------------------------
-function listMarketingTools(data,result){
+function listMarketingTools(data,result,bot){
     console.log("===listing productivity subcategories");
     const MAX_PAGE_NO = 5; // page numbers begin at 0
     var senderId = data.sessionId;
@@ -1062,7 +1062,7 @@ function listMarketingTools(data,result){
     });
 }
 //------------------------------------------------------------------------------
-function recommendProductivityTools(message,result){
+function recommendProductivityTools(message,result,bot){
     
     var subcat = result.parameters.productivity_tool;
     var attachments = [];
@@ -1106,7 +1106,7 @@ function recommendProductivityTools(message,result){
     });
 }
 //------------------------------------------------------------------------------
-function recommendMarketingTools(message,result){
+function recommendMarketingTools(message,result,bot){
     
     var subcat = result.parameters.marketing_tool;
     var attachments = [];
@@ -1150,7 +1150,7 @@ function recommendMarketingTools(message,result){
     });
 }
 //------------------------------------------------------------------------------
-function name(data){
+function name(data,bot){
      db.getMessagesOfType("name").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text;
@@ -1180,7 +1180,7 @@ function hello(data,bot){
     
 }
 //------------------------------------------------------------------------------
-function about(data){
+function about(data,bot){
     db.getMessagesOfType("about").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text;
@@ -1196,7 +1196,7 @@ function about(data){
 }
 
 //------------------------------------------------------------------------------
-function help(data){
+function help(data,bot){
      db.getMessagesOfType("help").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text+" \n\nType `productivity tools` or `marketing tools` to find tools by category";
@@ -1211,7 +1211,7 @@ function help(data){
     });
 }
 //------------------------------------------------------------------------------
-function bananas(data){
+function bananas(data,bot){
      db.getMessagesOfType("bananas").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text;
@@ -1226,7 +1226,7 @@ function bananas(data){
     });
 }
 //------------------------------------------------------------------------------
-function age(data){
+function age(data,bot){
     db.getMessagesOfType("age").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text;
@@ -1241,7 +1241,7 @@ function age(data){
     });
 }
 //------------------------------------------------------------------------------
-function joke(data){
+function joke(data,bot){
     db.getMessagesOfType("joke").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text;
@@ -1256,7 +1256,7 @@ function joke(data){
     });
 }
 //------------------------------------------------------------------------------
-function howAreYou(data){
+function howAreYou(data,bot){
     db.getMessagesOfType("how_are_you").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text;
@@ -1271,7 +1271,7 @@ function howAreYou(data){
     });
 }
 //------------------------------------------------------------------------------
-function dontKnow(data){
+function dontKnow(data,bot){
      db.getMessagesOfType("unknown").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text;
@@ -1287,7 +1287,7 @@ function dontKnow(data){
 }
 
 //------------------------------------------------------------------------------
-function bye(data){
+function bye(data,bot){
      db.getMessagesOfType("bye").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text;
@@ -1302,7 +1302,7 @@ function bye(data){
     });
 }
 //------------------------------------------------------------------------------
-function goodMorning(data){
+function goodMorning(data,bot){
      db.getMessagesOfType("good_morning").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text;
@@ -1317,7 +1317,7 @@ function goodMorning(data){
     });
 }
 //------------------------------------------------------------------------------
-function goodNight(data){
+function goodNight(data,bot){
      db.getMessagesOfType("good_night").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text;
@@ -1333,7 +1333,7 @@ function goodNight(data){
 }
 
 //------------------------------------------------------------------------------
-function thanks(data){
+function thanks(data,bot){
     db.getMessagesOfType("thanks").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text;
@@ -1348,7 +1348,7 @@ function thanks(data){
     });
 }
 //------------------------------------------------------------------------------
-function watup(data){
+function watup(data,bot){
     db.getMessagesOfType("what_up").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text;
@@ -1362,7 +1362,7 @@ function watup(data){
         console.log("[webhook_post.js]",error);
     });
 }
-function gender(data){
+function gender(data,bot){
     db.getMessagesOfType("gender").then(function(fire_msgs){
 		var fire_msg =fire_msgs[Math.floor(Math.random()*fire_msgs.length)];
         var text = fire_msg.text;
