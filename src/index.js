@@ -5,6 +5,7 @@
 //
 
 'use strict';
+var relic=require('newrelic');
 var Adapter = require("./Adapter");
 var db = new Adapter();
 var _ = require("underscore");
@@ -12,7 +13,7 @@ var request = require('request');
 var Q = require("q");
 var dashbot = require('dashbot')(process.env.DASHBOT_API_KEY).slack;
 var restify = require("restify");
-var relic=require('newrelic');
+
 const Botkit = require('botkit');
 
 const apiai = require('apiai');
