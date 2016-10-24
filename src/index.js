@@ -47,8 +47,8 @@ const controller =Botkit.slackbot({
   json_file_store: './db_slackbutton_bot/',
 }).configureSlackApp(
   {
-    clientId: process.env.clientId||'90897144192.90893484596',
-    clientSecret: process.env.clientSecret||'be6d0a3f69b597603750ee002ddfec22',
+    clientId: process.env.clientId,
+    clientSecret: process.env.clientSecret,
     scopes: ['bot','incoming-webhook','commands'],
   }
 );
@@ -84,7 +84,7 @@ controller.setupWebserver(port,function(err,webserver) {
 	} 
 });
 
-  controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
+controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
     if (err) {
       res.status(500).send('ERROR: ' + err);
     } else {
@@ -165,9 +165,9 @@ controller.on('rtm_close',function(bot) {
   // you may want to attempt to re-open
 });
 
-controller.hears('hello','direct_message',function(bot,message) {
+/* controller.hears('hello','direct_message',function(bot,message) {
   bot.reply(message,'Hello!');
-});
+}); */
 
 
 
