@@ -148,8 +148,8 @@ controller.on('create_bot',function(bot,config) {
         if (err) {
           console.log(err);
         } else {
-          convo.say('I am a bot that has just joined your team');
-          convo.say('You must now /invite me to a channel so that I can be of use!');
+          convo.say('Hi! I am Babun, your startup butler, powered by artificial intelligence and supervised by human experts. I help you find good tools and be more productive in your startup project.');
+          convo.say('You must now *invite me to a channel*, then just *say "Hello @babun"* and i will assist you.');
         }
       });
     });
